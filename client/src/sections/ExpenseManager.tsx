@@ -1,10 +1,20 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
 import { useState } from "react";
+import { useExpenses } from "@/hooks/useExpenses";
+import type { Expense } from "@/lib/api";
 
-export function ExpenseManager() {
-	const [expenses, setExpenses] = useState([]);
+interface ExpenseManagerProps {
+	expenses: Expense[];
+	onAdd: (description: string, amount: number) => void;
+	onDelete: (id: string) => void;
+}
 
+export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
+	expenses,
+	onAdd,
+	onDelete,
+}) => {
 	return (
 		<section id="expenses" className="py-20 px-4 max-w-6xl mx-auto">
 			<div className="text-center mb-12">
@@ -17,9 +27,9 @@ export function ExpenseManager() {
 			</div>
 
 			<div className="grid gap-8 md:grid-cols-2">
-				<ExpenseForm onAdd={(data) => console.log(data)} />
-				<ExpenseList expenses={expenses} onDelete={(id) => console.log(id)} />
+				<ExpenseForm onAdd={onAdd} />
+				<ExpenseList expenses={expenses} onDelete={onDelete} />
 			</div>
 		</section>
 	);
-}
+};

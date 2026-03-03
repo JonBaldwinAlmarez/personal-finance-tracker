@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface ExpenseFormProps {
-	onAdd: (expense: { description: string; amount: number }) => void;
+	onAdd: (description: string, amount: number) => void;
 }
 
-export function ExpenseForm({ onAdd }: ExpenseFormProps) {
+export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
 
@@ -14,31 +14,46 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
 		e.preventDefault();
 		if (!description || !amount) return;
 
-		onAdd({
-			description,
-			amount: parseFloat(amount),
-		});
+		onAdd(description, parseFloat(amount));
 
+		// Clear the form
 		setDescription("");
 		setAmount("");
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
-			<Input
-				placeholder="Description (e.g. Groceries)"
-				value={description}
-				onChange={(e) => setDescription(e.target.value)}
-			/>
-			<Input
-				type="number"
-				placeholder="Amount"
-				value={amount}
-				onChange={(e) => setAmount(e.target.value)}
-			/>
-			<Button type="submit" className="w-full">
+		<form
+			onSubmit={handleSubmit}
+			className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4"
+		>
+			<div className="space-y-2">
+				<label className="text-sm font-medium text-slate-700">
+					Description
+				</label>
+				<Input
+					placeholder="e.g. Netflix Subscription"
+					value={description}
+					onChange={(e) => setDescription(e.target.value)}
+					required
+				/>
+			</div>
+			<div className="space-y-2">
+				<label className="text-sm font-medium text-slate-700">Amount ($)</label>
+				<Input
+					type="number"
+					step="0.01"
+					placeholder="0.00"
+					value={amount}
+					onChange={(e) => setAmount(e.target.value)}
+					required
+				/>
+			</div>
+			<Button
+				type="submit"
+				className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+			>
 				Add Transaction
 			</Button>
 		</form>
 	);
-}
+};

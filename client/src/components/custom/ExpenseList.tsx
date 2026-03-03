@@ -1,45 +1,56 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
-
-interface Expense {
-	_id: string;
-	description: string;
-	amount: number;
-}
+import { type Expense } from "@/lib/api";
 
 interface ExpenseListProps {
 	expenses: Expense[];
 	onDelete: (id: string) => void;
 }
 
-export function ExpenseList({ expenses, onDelete }: ExpenseListProps) {
+export const ExpenseList: React.FC<ExpenseListProps> = ({
+	expenses,
+	onDelete,
+}) => {
+	if (expenses.length === 0) {
+		return (
+			<div className="text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-200">
+				<p className="text-slate-400">No transactions found.</p>
+			</div>
+		);
+	}
+
 	return (
 		<div className="space-y-3">
-			{expenses.length === 0 ? (
-				<p className="text-slate-500 text-center py-4">
-					No transactions found.
-				</p>
-			) : (
-				expenses.map((expense) => (
-					<div
-						key={expense._id}
-						className="flex justify-between items-center p-3 border rounded-lg bg-white"
-					>
-						<div>
-							<p className="font-medium text-slate-900">
-								{expense.description}
-							</p>
-							<p className="text-sm text-slate-500">-${expense.amount}</p>
-						</div>
+			{expenses.map((expense) => (
+				<div
+					key={expense._id}
+					className="flex justify-between items-center p-4 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-shadow"
+				>
+					<div>
+						<h4 className="font-semibold text-slate-900">
+							{expense.description}
+						</h4>
+						<p className="text-xs text-slate-400">
+							{expense.date
+								? new Date(expense.date).toLocaleDateString()
+								: "Recent"}
+						</p>
+					</div>
+					<div className="flex items-center gap-4">
+						<span className="font-bold text-slate-900">
+							-${expense.amount.toFixed(2)}
+						</span>
 						<Button
 							variant="ghost"
-							className="text-red-500"
+							size="sm"
+							className="text-red-500 hover:text-red-700 hover:bg-red-50"
 							onClick={() => onDelete(expense._id)}
 						>
 							Delete
 						</Button>
 					</div>
-				))
-			)}
+				</div>
+			))}
 		</div>
 	);
-}
+};
