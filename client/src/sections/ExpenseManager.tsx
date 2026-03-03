@@ -1,7 +1,7 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
-import { useState } from "react";
-import { useExpenses } from "@/hooks/useExpenses";
+//import { useState } from "react";
+//import { useExpenses } from "@/hooks/useExpenses";
 import type { Expense } from "@/lib/api";
 
 interface ExpenseManagerProps {
