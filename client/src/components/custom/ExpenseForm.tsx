@@ -9,6 +9,7 @@ interface ExpenseFormProps {
 export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
+	const [isSubmitting, setSubmitting] = useState(false);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -48,11 +49,13 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 					required
 				/>
 			</div>
+
 			<Button
+				disabled={isSubmitting}
 				type="submit"
 				className="w-full bg-blue-600 hover:bg-blue-700 text-white"
 			>
-				Add Transaction
+				{isSubmitting ? "Adding...." : "Add Expense"}
 			</Button>
 		</form>
 	);

@@ -3,6 +3,7 @@ import { Footer } from "@/layout/Footer";
 import { Hero } from "@/layout/Hero";
 import { ExpenseManager } from "@/sections/ExpenseManager";
 import { useExpenses } from "@/hooks/useExpenses";
+import { ExpenseChart } from "./components/custom/ExpenseChart";
 
 function App() {
 	// 1. Initialize our logic hook
@@ -34,11 +35,14 @@ function App() {
 						</p>
 					</div>
 				) : (
-					<ExpenseManager
-						expenses={expenses}
-						onAdd={addExpense}
-						onDelete={deleteExpense}
-					/>
+					<>
+						<ExpenseChart expenses={expenses} />
+						<ExpenseManager
+							expenses={expenses}
+							onAdd={addExpense}
+							onDelete={deleteExpense}
+						/>
+					</>
 				)}
 
 				{/* Placeholder for future sections */}
