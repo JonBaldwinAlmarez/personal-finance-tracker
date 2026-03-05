@@ -53,8 +53,9 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 					</div>
 
 					{/* Logic: We now pass filteredExpenses instead of the raw expenses */}
-
-					<ExpenseList expenses={filteredExpenses} onDelete={onDelete} />
+					<div className="pr-2 max-h-[350px] overflow-y-auto custom-scrollbar">
+						<ExpenseList expenses={filteredExpenses} onDelete={onDelete} />
+					</div>
 					{/* Empty Search Result Logic */}
 					{filteredExpenses.length === 0 && searchQuery.trim() !== "" && (
 						<p className="text-slate-500 text-center py-4">
