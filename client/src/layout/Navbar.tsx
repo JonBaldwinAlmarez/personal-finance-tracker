@@ -22,7 +22,7 @@ export const Navbar: React.FC = () => {
 								Home
 							</a>
 							<a
-								href="#manager"
+								href="#expenses"
 								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
 							>
 								Transactions
