@@ -35,14 +35,14 @@ function App() {
 						</p>
 					</div>
 				) : (
-					<>
+					<div>
 						<ExpenseChart expenses={expenses} />
 						<ExpenseManager
 							expenses={expenses}
 							onAdd={addExpense}
 							onDelete={deleteExpense}
 						/>
-					</>
+					</div>
 				)}
 
 				{/* Placeholder for future sections */}

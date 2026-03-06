@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { div } from "framer-motion/client";
 
 interface ExpenseFormProps {
 	onAdd: (description: string, amount: number) => void;
@@ -23,40 +24,47 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4"
-		>
-			<div className="space-y-2">
-				<label className="text-sm font-medium text-slate-700">
-					Description
-				</label>
-				<Input
-					placeholder="e.g. Netflix Subscription"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-					required
-				/>
-			</div>
-			<div className="space-y-2">
-				<label className="text-sm font-medium text-slate-700">Amount ($)</label>
-				<Input
-					type="number"
-					step="0.01"
-					placeholder="0.00"
-					value={amount}
-					onChange={(e) => setAmount(e.target.value)}
-					required
-				/>
-			</div>
-
-			<Button
-				disabled={isSubmitting}
-				type="submit"
-				className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+		<div className="lg:m-10">
+			<h2 className="text-2xl font-bold text-slate-900 mb-5">
+				Add New Expense
+			</h2>
+			<form
+				onSubmit={handleSubmit}
+				className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4"
 			>
-				{isSubmitting ? "Adding...." : "Add Expense"}
-			</Button>
-		</form>
+				<div className="space-y-2">
+					<label className="text-sm font-medium text-slate-700">
+						Description
+					</label>
+					<Input
+						placeholder="e.g. Netflix Subscription"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						required
+					/>
+				</div>
+				<div className="space-y-2">
+					<label className="text-sm font-medium text-slate-700">
+						Amount ($)
+					</label>
+					<Input
+						type="number"
+						step="0.01"
+						placeholder="0.00"
+						value={amount}
+						onChange={(e) => setAmount(e.target.value)}
+						required
+					/>
+				</div>
+
+				<Button
+					disabled={isSubmitting}
+					type="submit"
+					className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+				>
+					{isSubmitting ? "Adding...." : "Add Expense"}
+				</Button>
+			</form>
+		</div>
 	);
 };
