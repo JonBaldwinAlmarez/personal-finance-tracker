@@ -18,17 +18,32 @@ interface ChartProps {
 const COLORS = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd"];
 
 export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
-	// Logic: Sort by highest amount and take the top 5
-	const chartData = [...expenses]
+	// Group and Sum values by name
+	const groupedData = expenses.reduce(
+		(acc: Record<string, { amount: number }>, current) => {
+			const name = current.description.trim().toLocaleLowerCase();
+
+			if (acc[name]) {
+				acc[name].amount += current.amount;
+			} else {
+				acc[name] = { amount: current.amount };
+			}
+			return acc;
+		},
+		{} as Record<string, { amount: number }>,
+	);
+
+	// change this later
+	const chartData = Object.entries(groupedData)
+		.map(([name, value]) => ({
+			// Capitalize first letter for the UI
+			name: name.charAt(0).toUpperCase() + name.slice(1),
+			amount: value.amount,
+		}))
+		// 3. Sort by highest total amount
 		.sort((a, b) => b.amount - a.amount)
-		.slice(0, 5)
-		.map((item) => ({
-			name:
-				item.description.length > 12
-					? item.description.substring(0, 12) + "..."
-					: item.description,
-			amount: item.amount,
-		}));
+		// 4. Take top 5 for a clean look on all devices
+		.slice(0, 5);
 
 	if (expenses.length === 0) return null;
 
