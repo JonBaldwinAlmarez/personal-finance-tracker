@@ -1,5 +1,6 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 //import { useState } from "react";
 //import { useExpenses } from "@/hooks/useExpenses";
@@ -20,9 +21,14 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const filteredExpenses = expenses.filter((expense) =>
-		expense.description.toLowerCase().includes(searchQuery.toLowerCase()),
-	);
+	const filteredExpenses = expenses
+		.filter((expense) =>
+			expense.description.toLowerCase().includes(searchQuery.toLowerCase()),
+		)
+		.sort(
+			(a, b) =>
+				new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
+		);
 
 	return (
 		<section
