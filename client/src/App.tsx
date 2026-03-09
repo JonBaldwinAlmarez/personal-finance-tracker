@@ -45,7 +45,7 @@ function App() {
 					</div>
 				)}
 
-				{/* Placeholder for future sections */}
+				{/* Placeholder for future sections 
 				<section
 					id="about"
 					className="py-20 bg-white border-y border-slate-100"
@@ -56,7 +56,7 @@ function App() {
 							A modern solution for personal wealth management.
 						</p>
 					</div>
-				</section>
+				</section>*/}
 			</main>
 
 			<Footer />
