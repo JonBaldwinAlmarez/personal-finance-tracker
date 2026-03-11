@@ -1,5 +1,6 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 //import { useState } from "react";
 //import { useExpenses } from "@/hooks/useExpenses";
@@ -13,21 +14,31 @@ interface ExpenseManagerProps {
 	onDelete: (id: string) => void;
 }
 
+type SortMode = "latest" | "largest";
+
 export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 	expenses,
 	onAdd,
 	onDelete,
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
+	const [sortMode, setSortMode] = useState<SortMode>("latest");
 
 	const filteredExpenses = expenses
 		.filter((expense) =>
 			expense.description.toLowerCase().includes(searchQuery.toLowerCase()),
 		)
-		.sort(
-			(a, b) =>
-				new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
-		);
+		.sort((a, b) => {
+			if (sortMode === "latest") {
+				// Newest date first
+				return (
+					new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime()
+				);
+			} else {
+				// Highest amount first
+				return b.amount - a.amount;
+			}
+		});
 
 	return (
 		<section
@@ -44,6 +55,28 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 				<div className="md:col-span-7 space-y-6">
 					<div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 						<h2 className="text-2xl font-bold text-slate-900">History</h2>
+						<div className="flex bg-slate-100 p-1 rounded-lg gap-1">
+							<button
+								onClick={() => setSortMode("latest")}
+								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+									sortMode === "latest"
+										? "bg-white shadow-sm text-blue-600"
+										: "text-slate-500 hover:text-slate-700"
+								}`}
+							>
+								Latest
+							</button>
+							<button
+								onClick={() => setSortMode("largest")}
+								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+									sortMode === "largest"
+										? "bg-white shadow-sm text-blue-600"
+										: "text-slate-500 hover:text-slate-700"
+								}`}
+							>
+								Largest
+							</button>
+						</div>
 
 						{/* Search Input */}
 						<div className="relative w-full md:w-64">
