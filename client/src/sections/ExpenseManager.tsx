@@ -56,7 +56,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 					<div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 						<h2 className="text-2xl font-bold text-slate-900">History</h2>
 						<div className="flex bg-slate-100 p-1 rounded-lg gap-1">
-							<button
+							<Button
 								onClick={() => setSortMode("latest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
 									sortMode === "latest"
@@ -65,7 +65,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 								}`}
 							>
 								Latest
-							</button>
+							</Button>
 							<button
 								onClick={() => setSortMode("largest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
