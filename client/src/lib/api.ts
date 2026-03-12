@@ -1,5 +1,7 @@
+const BASED_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 // Base endpoint for expense-related network requests
-const API_URL = "/api/expenses";
+const API_URL = `${BASED_URL}/api/expenses`;
 
 // Define the structure of an Expense object for type safety
 export interface Expense {
@@ -14,6 +16,14 @@ export const api = {
 	// Fetch the list of all expenses from the server
 	async getExpenses(): Promise<Expense[]> {
 		const res = await fetch(API_URL);
+
+		if (!res.ok) {
+			const text = await res.text();
+			throw new Error(
+				`Server error: ${res.status}. Received: ${text.substring(0, 20)}...`,
+			);
+		}
+
 		const json = await res.json();
 		// Return the data array from the response object
 		return json.data;
