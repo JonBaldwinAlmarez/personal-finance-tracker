@@ -5,7 +5,16 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors()); // Enable CORS for all routes
+// --- MIDDLEWARE ---
+app.use(
+	cors({
+		origin: [
+			"http://localhost:5173",
+			"https://personal-finance-tracker.netlify.app",
+		],
+		credentials: true,
+	}),
+); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // --- ROUTES ---
@@ -25,6 +34,6 @@ app.get("/", (req, res) => {
 
 // --- START SERVER ---
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-	console.log(`🚀 Server is running on port localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+	console.log(`🚀 Server is live and listening on port: ${PORT}`);
 });
