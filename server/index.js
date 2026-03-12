@@ -10,7 +10,7 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:5173",
-			"https://personal-finance-tracker.netlify.app",
+			"advance-personal-finance-tracker.netlify.app",
 		],
 		credentials: true,
 	}),
