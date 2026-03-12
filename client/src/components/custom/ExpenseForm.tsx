@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { div } from "framer-motion/client";
 
 interface ExpenseFormProps {
 	onAdd: (description: string, amount: number) => void;
@@ -10,7 +9,7 @@ interface ExpenseFormProps {
 export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
-	const [isSubmitting, setSubmitting] = useState(false);
+	const [isSubmitting] = useState(false);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();

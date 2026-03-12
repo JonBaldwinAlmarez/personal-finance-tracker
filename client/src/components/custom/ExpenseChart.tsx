@@ -90,7 +90,7 @@ export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 							}}
 						/>
 						<Bar dataKey="amount" radius={[6, 6, 0, 0]} barSize={40}>
-							{chartData.map((entry, index) => (
+							{chartData.map((_, index) => (
 								<Cell
 									key={`cell-${index}`}
 									fill={COLORS[index % COLORS.length]}
