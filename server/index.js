@@ -8,7 +8,7 @@ const app = express();
 // --- MIDDLEWARE ---
 app.use(
 	cors({
-		origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+		origin: "https://advance-personal-finance-tracker.netlify.app",
 		credentials: true,
 	}),
 ); // Enable CORS for all routes
@@ -27,7 +27,7 @@ mongoose
 
 // --- TEST ROUTE ---
 app.get("/", (req, res) => {
-	res.send("Finance Tracker API is Live!!!");
+	res.send("Finance Tracker API is Live and Ready to Serve!");
 });
 
 // --- START SERVER ---
