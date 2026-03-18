@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * Application footer with placeholder links and a dynamic copyright year.
+ */
 export const Footer: React.FC = () => {
 	return (
 		<footer className="bg-white border-t border-slate-200 py-12">

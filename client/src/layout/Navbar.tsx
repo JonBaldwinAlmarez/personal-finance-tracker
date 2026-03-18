@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * Sticky top navigation bar with in-page anchor links.
+ *
+ * Purely presentational (no state); anchors match section IDs on the page.
+ */
 export const Navbar: React.FC = () => {
 	return (
 		<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">

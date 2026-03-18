@@ -1,10 +1,17 @@
 import React from "react";
 
 interface HeroProps {
+	/** Sum of all recorded expenses (computed by the hook). */
 	totalBalance: number;
+	/** Total count of recorded transactions/expenses. */
 	transactionCount: number;
 }
 
+/**
+ * Hero "at-a-glance" summary section.
+ *
+ * Displays derived totals and a simple headline; does not fetch data itself.
+ */
 export const Hero: React.FC<HeroProps> = ({
 	totalBalance,
 	transactionCount,

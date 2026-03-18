@@ -10,14 +10,23 @@ import {
 } from "recharts";
 
 interface Expense {
+	/** Numeric amount for the expense entry. */
 	amount: number;
+	/** Optional ISO date string (or any parseable date string) from the backend. */
 	date?: string;
 }
 
 interface TimelineProps {
+	/** Raw expenses to visualize as a time series. */
 	expenses: Expense[];
 }
 
+/**
+ * Area chart showing total spend aggregated per day.
+ *
+ * The component groups expenses by a human-readable date label and then sorts
+ * them to produce a left-to-right timeline for Recharts.
+ */
 const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
 	// 1. Group by Date
 	const timelineData = expenses.reduce(

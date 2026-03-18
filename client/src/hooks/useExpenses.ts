@@ -1,13 +1,29 @@
 import { useState, useEffect, useCallback } from "react";
 import { api, type Expense } from "@/lib/api";
 
+/**
+ * React hook that encapsulates all expense-related data fetching and mutations.
+ *
+ * Handles loading/error state, exposes CRUD helpers, and computes
+ * a derived total balance for convenient use in UI components.
+ *
+ * @returns {{
+ *   expenses: Expense[];
+ *   loading: boolean;
+ *   error: string | null;
+ *   addExpense: (description: string, amount: number) => Promise<void>;
+ *   deleteExpense: (id: string) => Promise<void>;
+ *   totalBalance: number;
+ *   refresh: () => Promise<void>;
+ * }} Hook state and helper methods for working with expenses.
+ */
 export function useExpenses() {
 	const [expenses, setExpenses] = useState<Expense[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	// !!ADD PRINT FUNCTION
-	// 1. Fetching logic
+	// 1. Fetching logic: load all expenses from the backend API
 	const fetchExpenses = useCallback(async () => {
 		try {
 			setLoading(true);
@@ -20,12 +36,12 @@ export function useExpenses() {
 		}
 	}, []);
 
-	// 2. Initial load
+	// 2. Initial load: fetch data as soon as the component tree mounts
 	useEffect(() => {
 		fetchExpenses();
 	}, [fetchExpenses]);
 
-	// 3. Adding logic
+	// 3. Adding logic: send a new expense to the API and optimistically prepend it
 	const addExpense = async (description: string, amount: number) => {
 		try {
 			const newExpense = await api.addExpense({ description, amount });
@@ -35,7 +51,7 @@ export function useExpenses() {
 		}
 	};
 
-	// 4. Deleting logic
+	// 4. Deleting logic: remove an expense both on the server and locally
 	const deleteExpense = async (id: string) => {
 		try {
 			await api.deleteExpense(id);
@@ -45,7 +61,7 @@ export function useExpenses() {
 		}
 	};
 
-	// Calculate Total for the Hero section
+	// Calculate Total for the Hero section (sum of all expense amounts)
 	const totalBalance = expenses.reduce((acc, curr) => acc + curr.amount, 0);
 
 	return {

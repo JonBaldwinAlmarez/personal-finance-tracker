@@ -3,15 +3,23 @@ import { Button } from "@/components/ui/button";
 import { type Expense } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 interface ExpenseListProps {
+	/** Expenses to render (already filtered/sorted by the parent). */
 	expenses: Expense[];
+	/** Callback invoked when the user deletes a specific expense. */
 	onDelete: (id: string) => void;
 }
 
+/**
+ * Animated list of expenses with a delete action.
+ *
+ * Shows an empty state when `expenses` is empty.
+ */
 export const ExpenseList: React.FC<ExpenseListProps> = ({
 	expenses,
 	onDelete,
 }) => {
 	if (expenses.length === 0) {
+		// Empty-state UI: avoids showing an empty list container.
 		return (
 			<motion.div
 				initial={{ opacity: 0 }}

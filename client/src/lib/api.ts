@@ -12,8 +12,18 @@ export interface Expense {
 	date?: string;
 }
 
+/**
+ * Light-weight API client for talking to the expense backend.
+ *
+ * All methods return typed promises to keep the rest of the app strongly typed.
+ */
 export const api = {
-	// Fetch the list of all expenses from the server
+	/**
+	 * Fetch the list of all expenses from the server.
+	 *
+	 * @returns {Promise<Expense[]>} Resolves with an array of expenses.
+	 * @throws {Error} When the response is not OK, including a brief body preview.
+	 */
 	async getExpenses(): Promise<Expense[]> {
 		const res = await fetch(API_URL);
 
@@ -29,7 +39,12 @@ export const api = {
 		return json.data;
 	},
 
-	// Send a new expense object to the server to be saved
+	/**
+	 * Send a new expense object to the server to be persisted.
+	 *
+	 * @param {{ description: string; amount: number }} expense - Minimal payload for creating an expense.
+	 * @returns {Promise<Expense>} Resolves with the created expense returned from the API.
+	 */
 	async addExpense(expense: {
 		description: string;
 		amount: number;
@@ -45,7 +60,12 @@ export const api = {
 		return json.data;
 	},
 
-	// Remove a specific expense from the database using its unique ID
+	/**
+	 * Remove a specific expense from the database using its unique ID.
+	 *
+	 * @param {string} id - Unique identifier of the expense to delete.
+	 * @returns {Promise<void>} Resolves when the server confirms deletion.
+	 */
 	async deleteExpense(id: string): Promise<void> {
 		await fetch(`${API_URL}/${id}`, {
 			method: "DELETE",

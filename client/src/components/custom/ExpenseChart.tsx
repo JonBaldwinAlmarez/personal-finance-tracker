@@ -11,12 +11,18 @@ import {
 import { type Expense } from "@/lib/api";
 
 interface ChartProps {
+	/** Raw expense list (component derives the aggregated chart series). */
 	expenses: Expense[];
 }
 
 // Professional Blue Palette
 const COLORS = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd"];
 
+/**
+ * Bar chart showing the top 5 largest expenses (grouped by description).
+ *
+ * This is a purely-presentational component that derives chart data from `expenses`.
+ */
 export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 	// Group and Sum values by name
 	const groupedData = expenses.reduce(
@@ -33,7 +39,7 @@ export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 		{} as Record<string, { amount: number }>,
 	);
 
-	// change this later
+	// Convert the grouped map into a sorted array for Recharts.
 	const chartData = Object.entries(groupedData)
 		.map(([name, value]) => ({
 			// Capitalize first letter for the UI

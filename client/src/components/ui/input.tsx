@@ -2,6 +2,11 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Styled input component (shadcn-style).
+ *
+ * A thin wrapper around a native `<input>` that applies consistent Tailwind classes.
+ */
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <input

@@ -9,13 +9,22 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 
 interface ExpenseManagerProps {
+	/** Expense list provided by the parent hook/component. */
 	expenses: Expense[];
+	/** Callback invoked when a new expense is submitted. */
 	onAdd: (description: string, amount: number) => void;
+	/** Callback invoked when a specific expense is deleted. */
 	onDelete: (id: string) => void;
 }
 
 type SortMode = "latest" | "largest";
 
+/**
+ * Main CRUD section for adding, searching, sorting, and listing expenses.
+ *
+ * This component is intentionally "dumb" about persistence: it delegates add/delete
+ * to the callbacks passed in by the parent (usually powered by `useExpenses`).
+ */
 export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 	expenses,
 	onAdd,
@@ -24,6 +33,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortMode, setSortMode] = useState<SortMode>("latest");
 
+	// Apply search + sort in-memory for instant UI feedback.
 	const filteredExpenses = expenses
 		.filter((expense) =>
 			expense.description.toLowerCase().includes(searchQuery.toLowerCase()),

@@ -6,6 +6,12 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
 
+/**
+ * Root application component.
+ *
+ * Wires together layout and feature sections, using `useExpenses` as the single
+ * source of truth for expense data + mutations.
+ */
 function App() {
 	// 1. Initialize our logic hook
 	const { expenses, loading, error, addExpense, deleteExpense, totalBalance } =

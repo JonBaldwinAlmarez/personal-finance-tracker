@@ -1,14 +1,23 @@
 const express = require("express"); // Import Express
 const router = express.Router(); // Create a new router
+
+/**
+ * Router for all expense-related HTTP endpoints.
+ *
+ * @module routes/expenseRoutes
+ * @see ../controllers/expenseController
+ */
 const {
 	getExpenses,
 	addExpense,
 	deleteExpense,
 	updateExpense,
-} = require("../controllers/expenseController"); // Import the controller function
+} = require("../controllers/expenseController"); // Import the controller functions
 
-router.route("/").get(getExpenses).post(addExpense); // Define the route for adding an expense and getting all expenses
+// Collection-level routes: list all expenses and create new expense
+router.route("/").get(getExpenses).post(addExpense);
 
-router.route("/:id").delete(deleteExpense).put(updateExpense); // Define the route for deleting and updating an expense by ID
+// Item-level routes: update or delete a single expense by ID
+router.route("/:id").delete(deleteExpense).put(updateExpense);
 
-module.exports = router; // Export the router
+module.exports = router; // Export the router so it can be mounted in the main app

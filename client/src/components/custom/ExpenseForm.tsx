@@ -3,14 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface ExpenseFormProps {
+	/** Callback invoked when a new expense is submitted. */
 	onAdd: (description: string, amount: number) => void;
 }
 
+/**
+ * Form component for creating a new expense entry.
+ *
+ * Handles basic client-side validation and delegates persistence to the parent
+ * via the `onAdd` callback.
+ */
 export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
 	const [isSubmitting] = useState(false);
 
+	/**
+	 * Handle submission of the expense form.
+	 *
+	 * @param {React.FormEvent} e - Native form submit event.
+	 */
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!description || !amount) return;
