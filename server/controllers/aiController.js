@@ -22,7 +22,7 @@ exports.getSpendingAnalysis = async (req, res) => {
 			.map((e) => `${e.description}: $${e.amount}`)
 			.join(", ");
 
-		// 3. Set up the Model (Gemini 1.5 Flash is the fast/free one)
+		// 3. Set up the Model (gemini-3-flash-preview is the fast/free one)
 		const model = genAI.getGenerativeModel({
 			model: "gemini-3-flash-preview",
 			generationConfig: { responseMimeType: "application/json" },

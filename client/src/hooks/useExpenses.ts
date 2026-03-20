@@ -22,7 +22,6 @@ export function useExpenses() {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
-	// !!ADD PRINT FUNCTION
 	// 1. Fetching logic: load all expenses from the backend API
 	const fetchExpenses = useCallback(async () => {
 		try {

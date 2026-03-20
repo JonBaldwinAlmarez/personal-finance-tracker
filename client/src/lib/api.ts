@@ -1,3 +1,5 @@
+import { error } from "console";
+
 const BASED_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // Base endpoint for expense-related network requests
@@ -10,6 +12,11 @@ export interface Expense {
 	amount: number;
 	category?: string;
 	date?: string;
+}
+
+export interface AIAnalysis {
+	advice: string;
+	suggestedbugget: number;
 }
 
 /**
@@ -70,5 +77,18 @@ export const api = {
 		await fetch(`${API_URL}/${id}`, {
 			method: "DELETE",
 		});
+	},
+
+	async getAIAnalysis(): Promise<AIAnalysis> {
+		const res = await fetch(`${BASED_URL}/api/ai/analyze`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+		});
+
+		if (!res.ok) {
+			throw new Error("AI is currently taking a nap. Try again later.");
+		}
+
+		return await res.json();
 	},
 };
