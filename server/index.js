@@ -18,7 +18,10 @@ const app = express();
  */
 app.use(
 	cors({
-		origin: "https://advance-personal-finance-tracker.netlify.app",
+		origin: [
+			"https://advance-personal-finance-tracker.netlify.app",
+			"http://localhost:5173",
+		], // Allow both production and local development frontends
 		credentials: true,
 	}),
 );

@@ -1,5 +1,3 @@
-import { error } from "console";
-
 const BASED_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // Base endpoint for expense-related network requests
@@ -16,7 +14,7 @@ export interface Expense {
 
 export interface AIAnalysis {
 	advice: string;
-	suggestedbugget: number;
+	suggestedBudget: number;
 }
 
 /**

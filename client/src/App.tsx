@@ -5,6 +5,7 @@ import { ExpenseManager } from "@/sections/ExpenseManager";
 import { useExpenses } from "@/hooks/useExpenses";
 import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
+import { AIAdvisor } from "./components/custom/AIAdvisor";
 
 /**
  * Root application component.
@@ -42,14 +43,21 @@ function App() {
 						</p>
 					</div>
 				) : (
-					<div>
+					<div className="flex flex-col gap-8 pb-12">
+						{/* 1. Management Section */}
 						<ExpenseManager
 							expenses={expenses}
 							onAdd={addExpense}
 							onDelete={deleteExpense}
 						/>
-						<ExpenseChart expenses={expenses} />
-						<SpendingTimeline expenses={expenses} />
+						{/* 2. AI Insights Section */}
+						<AIAdvisor currentTotal={totalBalance} />
+
+						{/* 3. Visual Analytics Section (Responsive Grid) */}
+						<div>
+							<ExpenseChart expenses={expenses} />
+							<SpendingTimeline expenses={expenses} />
+						</div>
 					</div>
 				)}
 
