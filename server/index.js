@@ -32,6 +32,10 @@ app.use(express.json());
 const expenseRoutes = require("./routes/expenseRoutes");
 app.use("/api/expenses", expenseRoutes);
 
+// Mount AI-related routes to the /api/ai endpoint
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);
+
 // --- DATABASE CONNECTION ---
 
 /**
