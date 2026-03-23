@@ -11,6 +11,8 @@ import {
 import { api, type AIAnalysis } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
+import { Button } from "@/components/ui/button";
+
 interface AIAdvisorProps {
 	currentTotal: number;
 }
@@ -43,7 +45,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 		<section className="max-w-4xl mx-auto px-4 py-8">
 			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 				{/* Header */}
-				<div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+				<div className="p-6 border-b border-slate-300 flex items-center justify-between bg-slate-50/50">
 					<div className="flex items-center gap-2">
 						<div className="p-2 bg-blue-100 rounded-lg">
 							<Sparkles className="w-5 h-5 text-blue-600" />
@@ -56,14 +58,19 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 						</div>
 					</div>
 
-					<button
+					<Button
 						onClick={fetchAnalysis}
 						disabled={loading || currentTotal === 0}
 						className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white rounded-xl text-sm font-semibold transition-all shadow-md shadow-blue-100"
 					>
-						<RefreshCcw className={cn("w-4 h-4", loading && "animate-spin")} />
+						<RefreshCcw
+							className={cn(
+								"w-4 h-4 bg-grey-600",
+								loading && "animate-spin text-red-500",
+							)}
+						/>
 						{loading ? "Analysing..." : "Get Advice"}
-					</button>
+					</Button>
 				</div>
 
 				{/* Content */}
@@ -88,7 +95,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 							{/* Text Advice */}
 							<div className="space-y-4">
-								<div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+								<div className="bg-blue-50 p-4 rounded-xl border border-cyan-200">
 									<p className="text-slate-700 leading-relaxed text-sm italic">
 										"{analysis.advice}"
 									</p>
