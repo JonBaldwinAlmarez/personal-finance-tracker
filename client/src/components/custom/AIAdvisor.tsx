@@ -42,7 +42,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 		: [];
 
 	return (
-		<section className="max-w-4xl mx-auto px-4 py-8">
+		<section className="max-w-4xl mx-auto px-4 py-8" id="AI-advisor">
 			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 				{/* Header */}
 				<div className="p-6 border-b border-slate-300 flex items-center justify-between bg-slate-50/50">

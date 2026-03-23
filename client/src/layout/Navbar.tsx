@@ -33,10 +33,23 @@ export const Navbar: React.FC = () => {
 								Transactions
 							</a>
 							<a
-								href="#about"
+								href="#AI-advisor"
 								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
 							>
-								About
+								AI Advisor
+							</a>
+							<a
+								href="#spending-breakdown"
+								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+							>
+								Spending Breakdown
+							</a>
+
+							<a
+								href="#spending-trend"
+								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+							>
+								Spending trend
 							</a>
 						</div>
 					</div>

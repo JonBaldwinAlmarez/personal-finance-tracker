@@ -54,7 +54,10 @@ export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 	if (expenses.length === 0) return null;
 
 	return (
-		<div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-12">
+		<div
+			className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-12"
+			id="spending-breakdown"
+		>
 			<div className="mb-6">
 				<h3 className="text-xl font-bold text-slate-900 tracking-tight">
 					Spending Breakdown
