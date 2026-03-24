@@ -19,7 +19,7 @@ function App() {
 		useExpenses();
 
 	return (
-		<div className="min-h-screen flex flex-col bg-slate-50 selection:bg-blue-100">
+		<div className="min-h-screen flex flex-col bg-slate-500 selection:bg-blue-100">
 			<Navbar />
 
 			<main className="grow">
