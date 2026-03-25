@@ -47,12 +47,13 @@ export const api = {
 	/**
 	 * Send a new expense object to the server to be persisted.
 	 *
-	 * @param {{ description: string; amount: number }} expense - Minimal payload for creating an expense.
+	 * @param {{ description: string; amount: number; date?: string }} expense - Payload for creating an expense.
 	 * @returns {Promise<Expense>} Resolves with the created expense returned from the API.
 	 */
 	async addExpense(expense: {
 		description: string;
 		amount: number;
+		date?: string;
 	}): Promise<Expense> {
 		const res = await fetch(API_URL, {
 			method: "POST",

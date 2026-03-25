@@ -11,7 +11,7 @@ import { api, type Expense } from "@/lib/api";
  *   expenses: Expense[];
  *   loading: boolean;
  *   error: string | null;
- *   addExpense: (description: string, amount: number) => Promise<void>;
+ *   addExpense: (description: string, amount: number, date?: string) => Promise<void>;
  *   deleteExpense: (id: string) => Promise<void>;
  *   totalBalance: number;
  *   refresh: () => Promise<void>;
@@ -41,9 +41,9 @@ export function useExpenses() {
 	}, [fetchExpenses]);
 
 	// 3. Adding logic: send a new expense to the API and optimistically prepend it
-	const addExpense = async (description: string, amount: number) => {
+	const addExpense = async (description: string, amount: number, date?: string) => {
 		try {
-			const newExpense = await api.addExpense({ description, amount });
+			const newExpense = await api.addExpense({ description, amount, date });
 			setExpenses((prev) => [newExpense, ...prev]); // Add to the top of the list
 		} catch (err) {
 			setError(`Could not add expense: ${err}`);
