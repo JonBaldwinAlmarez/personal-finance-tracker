@@ -36,8 +36,8 @@ export const Navbar: React.FC = () => {
 
 	return (
 		<nav
-			className={`sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md transition-all duration-300 ${
-				isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+			className={`fixed top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md transition-all duration-300 ${
+				isVisible ? "translate-y-0 opacity-100 " : "-translate-y-full opacity-0"
 			}`}
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
