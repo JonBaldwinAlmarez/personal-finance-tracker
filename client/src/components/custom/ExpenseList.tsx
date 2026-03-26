@@ -55,7 +55,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
 						</div>
 						<div className="flex items-center gap-4">
 							<span className="font-bold text-slate-900">
-								-${expense.amount.toFixed(2)}
+								₱{expense.amount.toFixed(2)}
 							</span>
 							<Button
 								variant="ghost"

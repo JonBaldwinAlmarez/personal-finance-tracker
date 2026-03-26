@@ -55,7 +55,7 @@ export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 
 	return (
 		<div
-			className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-12"
+			className="bg-white p-8 border border-slate-200 shadow-sm mb-12"
 			id="spending-breakdown"
 		>
 			<div className="mb-6">

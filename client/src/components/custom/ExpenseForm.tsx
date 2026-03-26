@@ -57,9 +57,7 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 					/>
 				</div>
 				<div className="space-y-2">
-					<label className="text-sm font-medium text-slate-700">
-						Date
-					</label>
+					<label className="text-sm font-medium text-slate-700">Date</label>
 					<Input
 						type="date"
 						value={date}
@@ -68,7 +66,7 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 				</div>
 				<div className="space-y-2">
 					<label className="text-sm font-medium text-slate-700">
-						Amount ($)
+						Amount (₱)
 					</label>
 					<Input
 						type="number"
