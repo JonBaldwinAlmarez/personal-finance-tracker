@@ -8,7 +8,8 @@ import {
 	ResponsiveContainer,
 	Cell,
 } from "recharts";
-import { api, type AIAnalysis } from "@/lib/api";
+import { api } from "@/lib/api";
+import type { AIAnalysis } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,14 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 			setLoading(true);
 			const result = await api.getAIAnalysis();
 			setAnalysis(result);
+
+			// Auto-save the AI advice to database
+			try {
+				await api.saveAdvice(result.advice, result.suggestedBudget);
+				console.log("Advice saved successfully.");
+			} catch (error) {
+				console.error("Failed to save advice:", error);
+			}
 		} catch (err) {
 			console.error(err);
 		} finally {

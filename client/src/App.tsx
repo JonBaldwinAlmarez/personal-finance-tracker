@@ -6,6 +6,7 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
 import { AIAdvisor } from "./components/custom/AIAdvisor";
+import { SavedAdvice } from "./components/custom/SavedAdvice";
 
 /**
  * Root application component.
@@ -53,7 +54,10 @@ function App() {
 						{/* 2. AI Insights Section */}
 						<AIAdvisor currentTotal={totalBalance} />
 
-						{/* 3. Visual Analytics Section (Responsive Grid) */}
+						{/* 3. Saved Advice Section - Shows saved AI advice with delete functionality */}
+						<SavedAdvice />
+
+						{/* 4. Visual Analytics Section (Responsive Grid) */}
 						<div>
 							<ExpenseChart expenses={expenses} />
 							<SpendingTimeline expenses={expenses} />

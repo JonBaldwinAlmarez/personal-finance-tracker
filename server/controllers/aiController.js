@@ -1,8 +1,72 @@
 const Expense = require("../models/Expense");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const SavedAdvice = require("../models/SavedAdvice");
+const { request } = require("node:http");
+
 // Initialize Gemini with the key from your .env
 const genAI = new GoogleGenerativeAI(process.env.VITE_GEMINI_API_KEY);
+
+/**
+ * Get all saved AI advice from the database.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+exports.getSavedAdvice = async (req, res) => {
+	try {
+		const items = await SavedAdvice.find().sort({ dateSaved: -1 }); // Sort by most recent
+		res.json({ data: items });
+	} catch (error) {
+		console.error("Error fetching saved advice:", error);
+		res.status(500).json({ error: "Failed to fetch saved advice." });
+	}
+};
+
+/**
+ * Save a new AI advice to the database.
+ *
+ * @param {Object} req - Express request object with advice and suggestedBudget
+ * @param {Object} res - Express response object
+ */
+exports.saveAdvice = async (req, res) => {
+	try {
+		const { advice, suggestedBudget } = req.body;
+
+		if (!advice || !suggestedBudget) {
+			return res
+				.status(400)
+				.json({ error: "Advice and suggested budget are required." });
+		}
+
+		const saved = await SavedAdvice.create({ advice, suggestedBudget });
+		res.status(201).json(saved);
+	} catch (error) {
+		console.error("Error saving advice:", error);
+		res.status(500).json({ error: "Failed to save advice." });
+	}
+};
+
+/**
+ * Delete a saved AI advice by ID.
+ *
+ * @param {Object} req - Express request object with ID parameter
+ * @param {Object} res - Express response object
+ */
+exports.deleteAdvice = async (req, res) => {
+	try {
+		const deletedItem = await SavedAdvice.findByIdAndDelete(req.params.id);
+
+		if (!deletedItem) {
+			return res.status(404).json({ error: "Advice not found." });
+		}
+
+		res.status(200).json({ message: "Advice deleted successfully." });
+	} catch (error) {
+		console.error("Error deleting advice:", error);
+		res.status(500).json({ error: "Failed to delete advice." });
+	}
+};
 
 exports.getSpendingAnalysis = async (req, res) => {
 	try {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { api, type Expense } from "@/lib/api";
+import { api } from "@/lib/api";
+import type { Expense } from "@/lib/types";
 
 /**
  * React hook that encapsulates all expense-related data fetching and mutations.
@@ -41,7 +42,11 @@ export function useExpenses() {
 	}, [fetchExpenses]);
 
 	// 3. Adding logic: send a new expense to the API and optimistically prepend it
-	const addExpense = async (description: string, amount: number, date?: string) => {
+	const addExpense = async (
+		description: string,
+		amount: number,
+		date?: string,
+	) => {
 		try {
 			const newExpense = await api.addExpense({ description, amount, date });
 			setExpenses((prev) => [newExpense, ...prev]); // Add to the top of the list
