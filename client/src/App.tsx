@@ -5,6 +5,8 @@ import { ExpenseManager } from "@/sections/ExpenseManager";
 import { useExpenses } from "@/hooks/useExpenses";
 import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
+import { AIAdvisor } from "./components/custom/AIAdvisor";
+import { SavedAdvice } from "./components/custom/SavedAdvice";
 
 /**
  * Root application component.
@@ -18,7 +20,7 @@ function App() {
 		useExpenses();
 
 	return (
-		<div className="min-h-screen flex flex-col bg-slate-50 selection:bg-blue-100">
+		<div className="min-h-screen flex flex-col bg-slate-100 selection:bg-blue-100">
 			<Navbar />
 
 			<main className="grow">
@@ -42,14 +44,24 @@ function App() {
 						</p>
 					</div>
 				) : (
-					<div>
+					<div className="flex flex-col gap-8 pb-12">
+						{/* 1. Management Section */}
 						<ExpenseManager
 							expenses={expenses}
 							onAdd={addExpense}
 							onDelete={deleteExpense}
 						/>
-						<ExpenseChart expenses={expenses} />
-						<SpendingTimeline expenses={expenses} />
+						{/* 2. AI Insights Section */}
+						<AIAdvisor currentTotal={totalBalance} />
+
+						{/* 3. Saved Advice Section - Shows saved AI advice with delete functionality */}
+						<SavedAdvice />
+
+						{/* 4. Visual Analytics Section (Responsive Grid) */}
+						<div>
+							<ExpenseChart expenses={expenses} />
+							<SpendingTimeline expenses={expenses} />
+						</div>
 					</div>
 				)}
 

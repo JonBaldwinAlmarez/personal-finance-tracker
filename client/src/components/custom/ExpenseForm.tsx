@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 interface ExpenseFormProps {
 	/** Callback invoked when a new expense is submitted. */
-	onAdd: (description: string, amount: number) => void;
+	onAdd: (description: string, amount: number, date?: string) => void;
 }
 
 /**
@@ -16,6 +16,7 @@ interface ExpenseFormProps {
 export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
+	const [date, setDate] = useState("");
 	const [isSubmitting] = useState(false);
 
 	/**
@@ -27,11 +28,12 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 		e.preventDefault();
 		if (!description || !amount) return;
 
-		onAdd(description, parseFloat(amount));
+		onAdd(description, parseFloat(amount), date || undefined);
 
 		// Clear the form
 		setDescription("");
 		setAmount("");
+		setDate("");
 	};
 
 	return (
@@ -55,8 +57,16 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 					/>
 				</div>
 				<div className="space-y-2">
+					<label className="text-sm font-medium text-slate-700">Date</label>
+					<Input
+						type="date"
+						value={date}
+						onChange={(e) => setDate(e.target.value)}
+					/>
+				</div>
+				<div className="space-y-2">
 					<label className="text-sm font-medium text-slate-700">
-						Amount ($)
+						Amount (₱)
 					</label>
 					<Input
 						type="number"

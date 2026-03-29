@@ -18,7 +18,10 @@ const app = express();
  */
 app.use(
 	cors({
-		origin: "https://advance-personal-finance-tracker.netlify.app",
+		origin: [
+			"https://advance-personal-finance-tracker.netlify.app",
+			"http://localhost:5173",
+		], // Allow both production and local development frontends
 		credentials: true,
 	}),
 );
@@ -31,6 +34,10 @@ app.use(express.json());
 // Mount expense-related routes to the /api/expenses endpoint
 const expenseRoutes = require("./routes/expenseRoutes");
 app.use("/api/expenses", expenseRoutes);
+
+// Mount AI-related routes to the /api/ai endpoint
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);
 
 // --- DATABASE CONNECTION ---
 

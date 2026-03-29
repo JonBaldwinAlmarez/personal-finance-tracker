@@ -1,13 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+//import { Button } from "../components/ui/button";
 
 /**
  * Sticky top navigation bar with in-page anchor links.
  *
- * Purely presentational (no state); anchors match section IDs on the page.
+ * Only visible when scrolled past the hero section for cleaner landing experience.
+ * Uses scroll detection to show/hide based on user position.
  */
 export const Navbar: React.FC = () => {
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			// Get the hero section element
+			const heroSection = document.getElementById("hero");
+			if (heroSection) {
+				// Calculate when hero section is no longer visible
+				const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+				const scrollPosition = window.scrollY;
+
+				// Show navbar when scrolled past hero section
+				setIsVisible(scrollPosition > heroBottom - 100); // Small offset for smoother transition
+			}
+		};
+
+		// Add scroll listener
+		window.addEventListener("scroll", handleScroll);
+
+		// Check initial position
+		handleScroll();
+
+		// Cleanup
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
+
 	return (
-		<nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
+		<nav
+			className={`fixed top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md transition-all duration-300 ${
+				isVisible ? "translate-y-0 opacity-100 " : "-translate-y-full opacity-0"
+			}`}
+		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
 					{/* Logo */}
@@ -18,6 +50,7 @@ export const Navbar: React.FC = () => {
 					</div>
 
 					{/* Desktop Navigation */}
+
 					<div className="hidden md:block">
 						<div className="ml-10 flex items-baseline space-x-8">
 							<a
@@ -33,20 +66,34 @@ export const Navbar: React.FC = () => {
 								Transactions
 							</a>
 							<a
-								href="#about"
+								href="#AI-advisor"
 								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
 							>
-								About
+								AI Advisor
+							</a>
+							<a
+								href="#spending-breakdown"
+								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+							>
+								Spending Breakdown
+							</a>
+
+							<a
+								href="#spending-trend"
+								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+							>
+								Spending trend
 							</a>
 						</div>
 					</div>
 
-					{/* Call to Action Button */}
+					{/* Call to Action Button 
 					<div className="flex items-center">
-						<button className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-all">
+						<Button className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-all">
 							Get Started
-						</button>
+						</Button>
 					</div>
+					*/}
 				</div>
 			</div>
 		</nav>

@@ -19,7 +19,7 @@ export const Hero: React.FC<HeroProps> = ({
 	// Format the number into a standard USD currency string
 	const formattedBalance = new Intl.NumberFormat("en-US", {
 		style: "currency",
-		currency: "USD",
+		currency: "PHP",
 	}).format(totalBalance);
 
 	return (

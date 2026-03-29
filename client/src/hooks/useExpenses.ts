@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { api, type Expense } from "@/lib/api";
+import { api } from "@/lib/api";
+import type { Expense } from "@/lib/types";
 
 /**
  * React hook that encapsulates all expense-related data fetching and mutations.
@@ -11,7 +12,7 @@ import { api, type Expense } from "@/lib/api";
  *   expenses: Expense[];
  *   loading: boolean;
  *   error: string | null;
- *   addExpense: (description: string, amount: number) => Promise<void>;
+ *   addExpense: (description: string, amount: number, date?: string) => Promise<void>;
  *   deleteExpense: (id: string) => Promise<void>;
  *   totalBalance: number;
  *   refresh: () => Promise<void>;
@@ -22,7 +23,6 @@ export function useExpenses() {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
-	// !!ADD PRINT FUNCTION
 	// 1. Fetching logic: load all expenses from the backend API
 	const fetchExpenses = useCallback(async () => {
 		try {
@@ -42,9 +42,13 @@ export function useExpenses() {
 	}, [fetchExpenses]);
 
 	// 3. Adding logic: send a new expense to the API and optimistically prepend it
-	const addExpense = async (description: string, amount: number) => {
+	const addExpense = async (
+		description: string,
+		amount: number,
+		date?: string,
+	) => {
 		try {
-			const newExpense = await api.addExpense({ description, amount });
+			const newExpense = await api.addExpense({ description, amount, date });
 			setExpenses((prev) => [newExpense, ...prev]); // Add to the top of the list
 		} catch (err) {
 			setError(`Could not add expense: ${err}`);

@@ -12,7 +12,7 @@ interface ExpenseManagerProps {
 	/** Expense list provided by the parent hook/component. */
 	expenses: Expense[];
 	/** Callback invoked when a new expense is submitted. */
-	onAdd: (description: string, amount: number) => void;
+	onAdd: (description: string, amount: number, date?: string) => void;
 	/** Callback invoked when a specific expense is deleted. */
 	onDelete: (id: string) => void;
 }
@@ -66,7 +66,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 					<div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 						<h2 className="text-2xl font-bold text-slate-900">History</h2>
 						<div className="flex bg-slate-100 p-1 rounded-lg gap-1">
-							<Button
+							<button
 								onClick={() => setSortMode("latest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
 									sortMode === "latest"
@@ -75,7 +75,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 								}`}
 							>
 								Latest
-							</Button>
+							</button>
 							<button
 								onClick={() => setSortMode("largest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${

@@ -3,14 +3,8 @@ const BASED_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 // Base endpoint for expense-related network requests
 const API_URL = `${BASED_URL}/api/expenses`;
 
-// Define the structure of an Expense object for type safety
-export interface Expense {
-	_id: string;
-	description: string;
-	amount: number;
-	category?: string;
-	date?: string;
-}
+// Import shared types
+import type { Expense, AIAnalysis, SavedAdviceItem } from "./types";
 
 /**
  * Light-weight API client for talking to the expense backend.
@@ -42,12 +36,13 @@ export const api = {
 	/**
 	 * Send a new expense object to the server to be persisted.
 	 *
-	 * @param {{ description: string; amount: number }} expense - Minimal payload for creating an expense.
+	 * @param {{ description: string; amount: number; date?: string }} expense - Payload for creating an expense.
 	 * @returns {Promise<Expense>} Resolves with the created expense returned from the API.
 	 */
 	async addExpense(expense: {
 		description: string;
 		amount: number;
+		date?: string;
 	}): Promise<Expense> {
 		const res = await fetch(API_URL, {
 			method: "POST",
@@ -70,5 +65,57 @@ export const api = {
 		await fetch(`${API_URL}/${id}`, {
 			method: "DELETE",
 		});
+	},
+
+	async getAIAnalysis(): Promise<AIAnalysis> {
+		const res = await fetch(`${BASED_URL}/api/ai/analyze`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+		});
+
+		if (!res.ok) {
+			throw new Error("AI is currently taking a nap. Try again later.");
+		}
+
+		return await res.json();
+	},
+
+	/**
+	 * Fetch all saved AI advice.
+	 *
+	 * @returns {Promise<SavedAdviceItem[]>} Array of saved advice with IDs and dates.
+	 */
+	async getSavedAdvice(): Promise<SavedAdviceItem[]> {
+		const res = await fetch(`${BASED_URL}/api/ai/saved`);
+
+		if (!res.ok) {
+			throw new Error("Failed to fetch saved advice.");
+		}
+
+		const json = await res.json();
+		return json.data;
+	},
+
+	async saveAdvice(advice: string, suggestedBudget: number): Promise<any> {
+		const res = await fetch(`${BASED_URL}/api/ai/saved`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ advice, suggestedBudget }),
+		});
+
+		if (!res.ok) {
+			throw new Error("Failed to save advice.");
+		}
+		return await res.json();
+	},
+
+	async deleteAdvice(id: string): Promise<void> {
+		const res = await fetch(`${BASED_URL}/api/ai/saved/${id}`, {
+			method: "DELETE",
+		});
+
+		if (!res.ok) {
+			throw new Error("Failed to delete advice.");
+		}
 	},
 };
