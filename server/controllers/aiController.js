@@ -5,7 +5,7 @@ const SavedAdvice = require("../models/SavedAdvice");
 const { request } = require("node:http");
 
 // Initialize Gemini with the key from your .env
-const genAI = new GoogleGenerativeAI(process.env.VITE_GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 /**
  * Get all saved AI advice from the database.
