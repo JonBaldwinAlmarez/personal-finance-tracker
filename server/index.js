@@ -39,6 +39,9 @@ app.use("/api/expenses", expenseRoutes);
 const aiRoutes = require("./routes/aiRoutes");
 app.use("/api/ai", aiRoutes);
 
+const budgetRoutes = require("./routes/budgetRoutes");
+app.use("/api/budgets", budgetRoutes);
+
 // --- DATABASE CONNECTION ---
 
 /**
