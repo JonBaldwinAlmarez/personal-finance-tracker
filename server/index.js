@@ -39,6 +39,7 @@ app.use("/api/expenses", expenseRoutes);
 const aiRoutes = require("./routes/aiRoutes");
 app.use("/api/ai", aiRoutes);
 
+// Mount budget-related routes to the /api/budgets endpoint
 const budgetRoutes = require("./routes/budgetRoutes");
 app.use("/api/budgets", budgetRoutes);
 
