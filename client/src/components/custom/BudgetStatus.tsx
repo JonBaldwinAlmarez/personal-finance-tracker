@@ -89,13 +89,13 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 				<div className="bg-blue-50 p-4 rounded">
 					<p className="text-xs text-gray-600 font-semibold">BUDGET</p>
 					<p className="text-2xl font-bold text-blue-600">
-						${amount.toFixed(2)}
+						₱{amount.toFixed(2)}
 					</p>
 				</div>
 				<div className="bg-purple-50 p-4 rounded">
 					<p className="text-xs text-gray-600 font-semibold">SPENT</p>
 					<p className="text-2xl font-bold text-purple-600">
-						${spent.toFixed(2)}
+						₱{spent.toFixed(2)}
 					</p>
 				</div>
 				<div
@@ -105,7 +105,7 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 					<p
 						className={`text-2xl font-bold ${remaining >= 0 ? "text-green-600" : "text-red-600"}`}
 					>
-						${remaining.toFixed(2)}
+						₱{remaining.toFixed(2)}
 					</p>
 				</div>
 			</div>

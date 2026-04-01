@@ -29,6 +29,7 @@ const calculateSpentAmount = async (budgetId) => {
  * Compute percentage and alert level.
  * Custom thresholds are [50,70,90] default.
  */
+
 const calculateAlertLevel = (spent, amount, thresholds = [50, 70, 90]) => {
 	if (!amount) return { percentage: 0, alertLevel: "error" };
 

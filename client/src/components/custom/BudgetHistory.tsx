@@ -38,7 +38,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 										{new Date(budget.endDate).toLocaleDateString()}
 									</p>
 									<p className="text-sm text-gray-600">
-										Spent ${(budget.spent || 0).toFixed(2)} of $
+										Spent ₱{(budget.spent || 0).toFixed(2)} of ₱
 										{budget.amount.toFixed(2)} (
 										{(budget.percentage || 0).toFixed(1)}%)
 									</p>
@@ -63,7 +63,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 												Budget
 											</p>
 											<p className="text-lg font-bold text-blue-600">
-												${budget.amount.toFixed(2)}
+												₱{budget.amount.toFixed(2)}
 											</p>
 										</div>
 										<div>
@@ -71,7 +71,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 												Spent
 											</p>
 											<p className="text-lg font-bold text-purple-600">
-												${(budget.spent || 0).toFixed(2)}
+												₱{(budget.spent || 0).toFixed(2)}
 											</p>
 										</div>
 									</div>
