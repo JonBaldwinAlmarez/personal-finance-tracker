@@ -1,10 +1,7 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-//import { useState } from "react";
-//import { useExpenses } from "@/hooks/useExpenses";
-import type { Expense } from "@/lib/api";
+import { type Expense } from "@/lib/api";
 import { Search } from "lucide-react";
 import { useState } from "react";
 

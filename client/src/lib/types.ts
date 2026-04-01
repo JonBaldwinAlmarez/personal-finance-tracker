@@ -26,3 +26,25 @@ export interface SavedAdviceItem extends AIAnalysis {
 	_id: string;
 	dateSaved: string;
 }
+
+export interface Budget {
+	_id: string;
+	amount: number;
+	startDate: string;
+	endDate: string;
+	isActive: boolean;
+	alertThresholds: number[];
+	note?: string;
+	createdAt: string;
+	spent?: number;
+	percentage?: number;
+	alertLevel?: "ok" | "info" | "warning" | "critical" | "error";
+}
+
+export interface CreateBudgetPayload {
+	amount: number;
+	startDate: string;
+	endDate: string;
+	note?: string;
+	alertThresholds?: number[];
+}

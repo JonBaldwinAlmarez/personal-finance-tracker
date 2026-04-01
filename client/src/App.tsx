@@ -7,6 +7,7 @@ import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
 import { AIAdvisor } from "./components/custom/AIAdvisor";
 import { SavedAdvice } from "./components/custom/SavedAdvice";
+import { BudgetManager } from "./sections/BudgetManager";
 
 /**
  * Root application component.
@@ -26,6 +27,9 @@ function App() {
 			<main className="grow">
 				{/* 2. Hero Section: Displays the "At a Glance" Summary */}
 				<Hero totalBalance={totalBalance} transactionCount={expenses.length} />
+				<div>
+					<BudgetManager />
+				</div>
 
 				{/* 3. Global Error Handling: Shows up if the API fails */}
 				{error && (
