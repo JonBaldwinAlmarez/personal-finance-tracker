@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { type Expense } from "@/lib/api";
+import { type Expense } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 interface ExpenseListProps {
 	/** Expenses to render (already filtered/sorted by the parent). */

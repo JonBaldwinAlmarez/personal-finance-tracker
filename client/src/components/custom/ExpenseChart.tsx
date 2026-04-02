@@ -8,7 +8,7 @@ import {
 	Cell,
 	CartesianGrid,
 } from "recharts";
-import { type Expense } from "@/lib/api";
+import { type Expense } from "@/lib/types";
 
 interface ChartProps {
 	/** Raw expense list (component derives the aggregated chart series). */
