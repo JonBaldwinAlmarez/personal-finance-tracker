@@ -8,6 +8,7 @@ import SpendingTimeline from "./components/custom/SpendingTimeline";
 import { AIAdvisor } from "./components/custom/AIAdvisor";
 import { SavedAdvice } from "./components/custom/SavedAdvice";
 import { BudgetManager } from "./sections/BudgetManager";
+import { useBudgets } from "./hooks/useBudget";
 
 /**
  * Root application component.
@@ -20,13 +21,19 @@ function App() {
 	const { expenses, loading, error, addExpense, deleteExpense, totalBalance } =
 		useExpenses();
 
+	const { activeBudget } = useBudgets();
+
 	return (
 		<div className="min-h-screen flex flex-col bg-slate-100 selection:bg-blue-100">
 			<Navbar />
 
 			<main className="grow">
 				{/* 2. Hero Section: Displays the "At a Glance" Summary */}
-				<Hero totalBalance={totalBalance} transactionCount={expenses.length} />
+				<Hero
+					totalBalance={totalBalance}
+					transactionCount={expenses.length}
+					activeBudget={activeBudget}
+				/>
 				<div>
 					<BudgetManager />
 				</div>

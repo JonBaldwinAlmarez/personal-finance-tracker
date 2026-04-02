@@ -1,3 +1,4 @@
+import type { Budget } from "@/lib/types";
 import React from "react";
 
 interface HeroProps {
@@ -5,6 +6,7 @@ interface HeroProps {
 	totalBalance: number;
 	/** Total count of recorded transactions/expenses. */
 	transactionCount: number;
+	activeBudget: Budget | null;
 }
 
 /**
@@ -15,6 +17,7 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
 	totalBalance,
 	transactionCount,
+	activeBudget,
 }) => {
 	// Format the number into a standard USD currency string
 	const formattedBalance = new Intl.NumberFormat("en-US", {
@@ -54,6 +57,11 @@ export const Hero: React.FC<HeroProps> = ({
 						<h2 className="text-5xl font-bold text-slate-900 mb-4">
 							{formattedBalance}
 						</h2>
+
+						<p className="text-sm font-medium text-slate-500 uppercase tracking-widest mb-2">
+							Monthly Budget
+						</p>
+						<h2 className="text-5xl font-bold text-slate-900 mb-4">{activeBudget?.amount}</h2>
 						<div className="flex justify-center items-center gap-2 text-sm text-slate-400">
 							<span className="flex h-2 w-2 rounded-full bg-green-500"></span>
 							Based on {transactionCount} recent transactions
