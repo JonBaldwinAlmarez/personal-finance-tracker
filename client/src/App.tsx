@@ -50,7 +50,7 @@ function App() {
 				{loading ? (
 					<div className="py-20 text-center">
 						<div className="animate-spin radial-progress text-blue-600 mb-4 mx-auto"></div>
-						<p className="text-slate-500 font-medium">
+						<p className="text-slate-500 font-medium animate-caret-blink">
 							Fetching your records...
 						</p>
 					</div>
