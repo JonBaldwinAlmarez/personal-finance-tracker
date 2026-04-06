@@ -54,7 +54,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 		<section className="max-w-4xl mx-auto px-4 py-8" id="AI-advisor">
 			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 				{/* Header */}
-				<div className="p-6 border-b border-slate-300 flex items-center justify-between bg-slate-50/50">
+				<div className="p-6 border-b border-slate-300 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-slate-50/50">
 					<div className="flex items-center gap-2">
 						<div className="p-2 bg-blue-100 rounded-lg">
 							<Sparkles className="w-5 h-5 text-blue-600" />
@@ -118,7 +118,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 							</div>
 
 							{/* Responsive Chart */}
-							<div className="h-48 w-full min-w-0 min-h-[250px]">
+							<div className="h-[250px] w-full min-w-0">
 								<ResponsiveContainer width="100%" height={250} minWidth={0}>
 									<BarChart data={chartData}>
 										<XAxis dataKey="name" axisLine={false} tickLine={false} />

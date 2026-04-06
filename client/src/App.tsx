@@ -69,7 +69,7 @@ function App() {
 						<SavedAdvice />
 
 						{/* 4. Visual Analytics Section (Responsive Grid) */}
-						<div>
+						<div className="flex flex-col w-full md:flex-row max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-2">
 							<ExpenseChart expenses={expenses} />
 							<SpendingTimeline expenses={expenses} />
 						</div>

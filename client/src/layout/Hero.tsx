@@ -28,7 +28,7 @@ export const Hero: React.FC<HeroProps> = ({
 	return (
 		<section
 			id="hero"
-			className="pt-24 pb-16 px-4 bg-linear-to-b from-white to-slate-50 border-b border-slate-100"
+			className="pt-10 pb-16 px-4 bg-linear-to-b from-white to-slate-50 border-b border-slate-100"
 		>
 			<div className="max-w-4xl mx-auto text-center">
 				{/* Sub-headline */}

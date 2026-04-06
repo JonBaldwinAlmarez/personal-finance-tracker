@@ -43,8 +43,8 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
 						transition={{ duration: 0.2 }} // Snappy 0.2s speed
 						className="flex justify-between items-center p-4 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-shadow"
 					>
-						<div>
-							<h4 className="font-semibold text-slate-900">
+						<div className="min-w-0">
+							<h4 className="font-semibold text-slate-900 truncate">
 								{expense.description}
 							</h4>
 							<p className="text-xs text-slate-400">
@@ -53,7 +53,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
 									: "Recent"}
 							</p>
 						</div>
-						<div className="flex items-center gap-4">
+						<div className="flex items-center gap-3 shrink-0">
 							<span className="font-bold text-slate-900">
 								₱{expense.amount.toFixed(2)}
 							</span>

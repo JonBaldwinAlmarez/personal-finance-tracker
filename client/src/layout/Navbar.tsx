@@ -41,7 +41,7 @@ export const Navbar: React.FC = () => {
 			}`}
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center h-16">
+				<div className="flex justify-center md:justify-between items-center h-16">
 					{/* Logo */}
 					<div className="flex-shrink-0 flex items-center">
 						<span className="text-xl font-bold tracking-tighter text-slate-900">
@@ -78,12 +78,7 @@ export const Navbar: React.FC = () => {
 								Spending Breakdown
 							</a>
 
-							<a
-								href="#spending-trend"
-								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-							>
-								Spending trend
-							</a>
+		
 						</div>
 					</div>
 

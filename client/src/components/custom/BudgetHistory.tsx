@@ -57,7 +57,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 											<p className="text-sm text-gray-700">{budget.note}</p>
 										</div>
 									)}
-									<div className="grid grid-cols-2 gap-4">
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 										<div>
 											<p className="text-xs font-semibold text-gray-600 uppercase">
 												Budget

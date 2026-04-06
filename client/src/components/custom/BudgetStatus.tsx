@@ -55,7 +55,7 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 
 	return (
 		<div className="bg-white p-6 rounded-lg shadow space-y-6">
-			<div className="flex justify-between items-start">
+			<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
 				<div>
 					<h3 className="text-xl font-bold">Active Budget</h3>
 					<p className="text-sm text-gray-600">
@@ -85,7 +85,7 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 					/>
 				</div>
 			</div>
-			<div className="grid grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
 				<div className="bg-blue-50 p-4 rounded">
 					<p className="text-xs text-gray-600 font-semibold">BUDGET</p>
 					<p className="text-2xl font-bold text-blue-600">

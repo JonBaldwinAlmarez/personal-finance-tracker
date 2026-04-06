@@ -53,7 +53,7 @@ const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
 	if (expenses.length === 0) return null;
 
 	return (
-		<div className="w-full bg-card p-4 border shadow-sm" id="spending-trend">
+		<div className="w-full min-w-0 bg-white p-4 sm:p-6 lg:p-8 rounded-xl border border-slate-200 shadow-sm mb-12" id="spending-trend">
 			<h3 className="text-lg font-semibold mb-4 text-card-foreground">
 				Spending Trend
 			</h3>
