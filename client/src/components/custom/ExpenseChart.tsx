@@ -67,8 +67,8 @@ export const ExpenseChart: React.FC<ChartProps> = ({ expenses }) => {
 				</p>
 			</div>
 
-			<div className="h-[300px] w-full">
-				<ResponsiveContainer width="100%" height="100%">
+			<div className="h-[300px] w-full min-w-0 min-h-[300px]">
+				<ResponsiveContainer width="100%" height={300} minWidth={0}>
 					<BarChart
 						data={chartData}
 						margin={{ top: 0, right: 0, left: -20, bottom: 0 }}

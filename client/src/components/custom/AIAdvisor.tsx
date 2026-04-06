@@ -118,8 +118,8 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 							</div>
 
 							{/* Responsive Chart */}
-							<div className="h-48 w-full">
-								<ResponsiveContainer width="100%" height="100%">
+							<div className="h-48 w-full min-w-0 min-h-[250px]">
+								<ResponsiveContainer width="100%" height={250} minWidth={0}>
 									<BarChart data={chartData}>
 										<XAxis dataKey="name" axisLine={false} tickLine={false} />
 										<Tooltip

@@ -57,8 +57,8 @@ const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
 			<h3 className="text-lg font-semibold mb-4 text-card-foreground">
 				Spending Trend
 			</h3>
-			<div className="h-[250px] w-full">
-				<ResponsiveContainer width="100%" height="100%">
+			<div className="h-[250px] w-full min-w-0 min-h-[250px]">
+				<ResponsiveContainer width="100%" height={250} minWidth={0}>
 					<AreaChart data={chartTimeline}>
 						<defs>
 							<linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
