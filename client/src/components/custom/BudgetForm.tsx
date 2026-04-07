@@ -70,11 +70,12 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 				</div>
 			)}
 			<div>
-				<label className="block text-sm font-medium mb-1">
+				<label htmlFor="amount" className="block text-sm font-medium mb-1">
 					Budget Amount ($)
 				</label>
 				<Input
 					type="number"
+					id="amount"
 					name="amount"
 					value={formData.amount}
 					onChange={handleChange}
@@ -86,20 +87,27 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 				/>
 			</div>
 			<div>
-				<label className="block text-sm font-medium mb-1">Start Date</label>
+				<label htmlFor="startDate" className="block text-sm font-medium mb-1">
+					Start Date
+				</label>
 				<Input
 					type="date"
+					id="startDate"
 					name="startDate"
 					value={formData.startDate}
 					onChange={handleChange}
 					disabled={isLoading}
 					className="w-full"
+					placeholder="Select start date"
 				/>
 			</div>
 			<div>
-				<label className="block text-sm font-medium mb-1">End Date</label>
+				<label htmlFor="endDate" className="block text-sm font-medium mb-1">
+					End Date
+				</label>
 				<Input
 					type="date"
+					id="endDate"
 					name="endDate"
 					value={formData.endDate}
 					onChange={handleChange}
@@ -108,11 +116,12 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 				/>
 			</div>
 			<div>
-				<label className="block text-sm font-medium mb-1">
+				<label htmlFor="note" className="block text-sm font-medium mb-1">
 					Note (Optional)
 				</label>
 				<textarea
 					name="note"
+					id="note"
 					value={formData.note}
 					onChange={handleChange}
 					placeholder="e.g., March spending plan"

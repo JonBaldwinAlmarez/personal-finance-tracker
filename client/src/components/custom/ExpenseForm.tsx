@@ -46,30 +46,41 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 				className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4"
 			>
 				<div className="space-y-2">
-					<label className="text-sm font-medium text-slate-700">
+					<label
+						htmlFor="description"
+						className="text-sm font-medium text-slate-700"
+					>
 						Description
 					</label>
 					<Input
 						placeholder="e.g. Netflix Subscription"
+						id="description"
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 						required
 					/>
 				</div>
 				<div className="space-y-2">
-					<label className="text-sm font-medium text-slate-700">Date</label>
+					<label htmlFor="date" className="text-sm font-medium text-slate-700">
+						Date
+					</label>
 					<Input
 						type="date"
+						id="date"
 						value={date}
 						onChange={(e) => setDate(e.target.value)}
 					/>
 				</div>
 				<div className="space-y-2">
-					<label className="text-sm font-medium text-slate-700">
+					<label
+						htmlFor="amount"
+						className="text-sm font-medium text-slate-700"
+					>
 						Amount (₱)
 					</label>
 					<Input
 						type="number"
+						id="amount"
 						step="1.00"
 						placeholder="0.00"
 						value={amount}
