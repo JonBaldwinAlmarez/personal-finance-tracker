@@ -1,5 +1,6 @@
 import React from "react";
 import { type Budget } from "@/lib/types";
+import { Check, Info, ShieldAlert, TriangleAlert, X } from "lucide-react";
 
 interface BudgetStatusProps {
 	budget: Budget | null;
@@ -43,11 +44,11 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 		error: "bg-red-600",
 	};
 	const alertLabel = {
-		ok: "✅ On Track",
-		info: "ℹ️ Halfway",
-		warning: "⚠️ Warning",
-		critical: "🚨 Critical",
-		error: "❌ Over Budget",
+		ok: { icon: <Check />, text: "On Track" },
+		info: { icon: <Info />, text: "Caution" },
+		warning: { icon: <ShieldAlert />, text: "Warning" },
+		critical: { icon: <TriangleAlert />, text: "Critical" },
+		error: { icon: <X />, text: "Over Budget" },
 	};
 
 	const startDate = new Date(budget.startDate).toLocaleDateString();
@@ -68,9 +69,10 @@ export const BudgetStatus: React.FC<BudgetStatusProps> = ({
 					)}
 				</div>
 				<div
-					className={`px-3 py-1 rounded border font-semibold ${alertColor[alertLevel]}`}
+					className={`flex items-center px-3 rounded border font-semibold ${alertColor[alertLevel]}`}
 				>
-					{alertLabel[alertLevel]}
+					<span className="mr-2">{alertLabel[alertLevel].icon}</span>
+					<span>{alertLabel[alertLevel].text}</span>
 				</div>
 			</div>
 			<div>

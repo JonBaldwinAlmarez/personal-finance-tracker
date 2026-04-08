@@ -77,7 +77,7 @@ export const SavedAdvice: React.FC = () => {
 		<section className="max-w-4xl mx-auto px-4 py-6">
 			<div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 				{/* Header - Clickable to expand/collapse */}
-				<button
+				<Button
 					onClick={() => setIsExpanded(!isExpanded)}
 					className="w-full p-6 border-b border-slate-300 flex items-center justify-between bg-slate-50/50 hover:bg-slate-50 transition-colors"
 				>
@@ -92,7 +92,7 @@ export const SavedAdvice: React.FC = () => {
 					) : (
 						<ChevronDown className="w-5 h-5 text-slate-500" />
 					)}
-				</button>
+				</Button>
 
 				{/* Content - Only show when expanded */}
 				{isExpanded && (

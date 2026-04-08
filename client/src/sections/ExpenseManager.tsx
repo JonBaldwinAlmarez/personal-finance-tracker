@@ -1,5 +1,6 @@
 import { ExpenseForm } from "@/components/custom/ExpenseForm";
 import { ExpenseList } from "@/components/custom/ExpenseList";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { type Expense } from "@/lib/types";
 import { Search } from "lucide-react";
@@ -63,7 +64,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 					<div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 						<h2 className="text-2xl font-bold text-slate-900">History</h2>
 						<div className="flex bg-slate-100 p-1 rounded-lg gap-1">
-							<button
+							<Button
 								onClick={() => setSortMode("latest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
 									sortMode === "latest"
@@ -72,8 +73,8 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 								}`}
 							>
 								Latest
-							</button>
-							<button
+							</Button>
+							<Button
 								onClick={() => setSortMode("largest")}
 								className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
 									sortMode === "largest"
@@ -82,7 +83,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 								}`}
 							>
 								Largest
-							</button>
+							</Button>
 						</div>
 
 						{/* Search Input */}

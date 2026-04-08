@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { type Budget } from "@/lib/types";
+import { ArrowBigRight, ArrowBigDown } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface BudgetHistoryProps {
 	budgets: Budget[];
@@ -21,7 +23,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 		<div className="bg-white p-6 rounded-lg shadow">
 			<h3 className="text-lg font-semibold mb-4">Budget History</h3>
 			{isLoading ? (
-				<p className="text-gray-500">Loading...</p>
+				<p className="text-gray-500 animate-caret-blink">Loading...</p>
 			) : (
 				<div className="space-y-2">
 					{inactiveBudgets.map((budget) => (
@@ -44,7 +46,11 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 									</p>
 								</div>
 								<span className="text-xl">
-									{expandedId === budget._id ? "▼" : "▶"}
+									{expandedId === budget._id ? (
+										<ArrowBigDown />
+									) : (
+										<ArrowBigRight />
+									)}
 								</span>
 							</button>
 							{expandedId === budget._id && (
@@ -84,7 +90,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 										/>
 									</div>
 									{onDeleteBudget && (
-										<button
+										<Button
 											onClick={async () => {
 												if (
 													confirm(
@@ -98,7 +104,7 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 											className="w-full text-sm px-3 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded transition"
 										>
 											Delete Record
-										</button>
+										</Button>
 									)}
 								</div>
 							)}

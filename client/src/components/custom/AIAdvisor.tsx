@@ -70,7 +70,7 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 					<Button
 						onClick={fetchAnalysis}
 						disabled={loading || currentTotal === 0}
-						className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 text-white rounded-xl text-sm font-semibold transition-all shadow-md shadow-blue-100"
+						className="flex items-center gap-2 px-4 py-2 disabled:bg-slate-300 text-white rounded-xl text-sm font-semibold transition-all shadow-md shadow-blue-100"
 					>
 						<RefreshCcw
 							className={cn(

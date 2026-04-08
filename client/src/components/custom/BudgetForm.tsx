@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useBudgets } from "@/hooks/useBudget"; // Assuming your hook is here
+import { Textarea } from "../ui/textarea";
+import { useBudgets } from "@/hooks/useBudget";
 
 export const BudgetForm = () => {
 	const {
@@ -41,8 +42,8 @@ export const BudgetForm = () => {
 		e.preventDefault();
 
 		// Basic Validation
-		if (!formData.amount || parseFloat(formData.amount) <= 0) {
-			setValidationError("Amount must be greater than 0");
+		if (!formData.amount || parseFloat(formData.amount) <= 10000) {
+			setValidationError("Amount must be greater than ₱10,000");
 			return;
 		}
 
@@ -160,7 +161,7 @@ export const BudgetForm = () => {
 					<label className="text-sm font-semibold text-gray-600" htmlFor="note">
 						Notes
 					</label>
-					<textarea
+					<Textarea
 						name="note"
 						id="note"
 						value={formData.note}
