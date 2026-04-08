@@ -1,25 +1,32 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { type CreateBudgetPayload } from "@/lib/types";
+import { useBudgets } from "@/hooks/useBudget"; // Assuming your hook is here
 
-interface BudgetFormProps {
-	onSubmit: (payload: CreateBudgetPayload) => Promise<void>;
-	isLoading?: boolean;
-	error?: string | null;
-}
+export const BudgetForm = () => {
+	const {
+		activeBudget,
+		loading,
+		error,
+		updateBudget,
+		createBudget,
+		resetBudget,
+	} = useBudgets();
 
-export const BudgetForm: React.FC<BudgetFormProps> = ({
-	onSubmit,
-	isLoading = false,
-	error = null,
-}) => {
-	const [formData, setFormData] = useState({
-		amount: "",
-		startDate: "",
-		endDate: "",
-		note: "",
+	const [formData, setFormData] = useState<{
+		amount: string;
+		startDate: string;
+		endDate: string;
+		note: string;
+	}>({
+		amount: activeBudget?.amount.toString() || "",
+		startDate: activeBudget?.startDate
+			? activeBudget.startDate.split("T")[0]
+			: "",
+		endDate: activeBudget?.endDate ? activeBudget.endDate.split("T")[0] : "",
+		note: activeBudget?.note || "",
 	});
+
 	const [validationError, setValidationError] = useState<string | null>(null);
 
 	const handleChange = (
@@ -32,114 +39,148 @@ export const BudgetForm: React.FC<BudgetFormProps> = ({
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setValidationError(null);
 
+		// Basic Validation
 		if (!formData.amount || parseFloat(formData.amount) <= 0) {
-			setValidationError("Budget amount must be greater than 0");
-			return;
-		}
-		if (!formData.startDate || !formData.endDate) {
-			setValidationError("Please select both start and end dates");
-			return;
-		}
-		if (new Date(formData.endDate) <= new Date(formData.startDate)) {
-			setValidationError("End date must be after start date");
+			setValidationError("Amount must be greater than 0");
 			return;
 		}
 
-		const payload: CreateBudgetPayload = {
+		const payload = {
 			amount: parseFloat(formData.amount),
 			startDate: formData.startDate,
 			endDate: formData.endDate,
 			note: formData.note || undefined,
 		};
 
-		await onSubmit(payload);
-		setFormData({ amount: "", startDate: "", endDate: "", note: "" });
+		if (activeBudget?._id) {
+			await updateBudget(activeBudget._id, payload);
+		} else {
+			await createBudget(payload);
+		}
+	};
+
+	const handleReset = async () => {
+		if (
+			window.confirm(
+				"Are you sure you want to reset your budget? This will archive the current one.",
+			)
+		) {
+			// You can pass the current formData as the 'starting point' for the reset if your API requires it
+			await resetBudget({
+				amount: 0,
+				startDate: new Date().toISOString().split("T")[0],
+				endDate: "",
+				note: "",
+			});
+		}
 	};
 
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="space-y-4 bg-white p-6 rounded-lg shadow"
+			className="space-y-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100"
 		>
-			<h3 className="text-lg font-semibold">Create New Budget</h3>
+			<div className="flex justify-between items-center">
+				<h3 className="text-xl font-bold text-gray-800">
+					{activeBudget ? "Manage Active Budget" : "Set Up Budget"}
+				</h3>
+				{activeBudget && (
+					<Button
+						type="button"
+						variant="outline"
+						onClick={handleReset}
+						className="text-red-500 border-red-200 hover:bg-red-50"
+					>
+						Reset Planner
+					</Button>
+				)}
+			</div>
+
 			{(error || validationError) && (
-				<div className="p-3 bg-red-100 text-red-800 rounded border border-red-300">
+				<div className="p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-100">
 					{error || validationError}
 				</div>
 			)}
-			<div>
-				<label htmlFor="amount" className="block text-sm font-medium mb-1">
-					Budget Amount ($)
-				</label>
-				<Input
-					type="number"
-					id="amount"
-					name="amount"
-					value={formData.amount}
-					onChange={handleChange}
-					placeholder="e.g., 3000"
-					step="0.01"
-					min="0"
-					disabled={isLoading}
-					className="w-full"
-				/>
+
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<div className="md:col-span-2">
+					<label
+						className="text-sm font-semibold text-gray-600"
+						htmlFor="amount"
+					>
+						Budget Amount ($)
+					</label>
+					<Input
+						type="number"
+						name="amount"
+						id="amount"
+						value={formData.amount}
+						onChange={handleChange}
+						placeholder="0.00"
+						className="mt-1 text-lg font-medium"
+					/>
+				</div>
+
+				<div>
+					<label
+						className="text-sm font-semibold text-gray-600"
+						htmlFor="startDate"
+					>
+						Start Date
+					</label>
+					<Input
+						type="date"
+						name="startDate"
+						id="startDate"
+						value={formData.startDate}
+						onChange={handleChange}
+						className="mt-1"
+					/>
+				</div>
+
+				<div>
+					<label
+						className="text-sm font-semibold text-gray-600"
+						htmlFor="endDate"
+					>
+						End Date
+					</label>
+					<Input
+						type="date"
+						name="endDate"
+						id="endDate"
+						value={formData.endDate}
+						onChange={handleChange}
+						className="mt-1"
+					/>
+				</div>
+
+				<div className="md:col-span-2">
+					<label className="text-sm font-semibold text-gray-600" htmlFor="note">
+						Notes
+					</label>
+					<textarea
+						name="note"
+						id="note"
+						value={formData.note}
+						onChange={handleChange}
+						rows={3}
+						className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+					/>
+				</div>
 			</div>
-			<div>
-				<label htmlFor="startDate" className="block text-sm font-medium mb-1">
-					Start Date
-				</label>
-				<Input
-					type="date"
-					id="startDate"
-					name="startDate"
-					value={formData.startDate}
-					onChange={handleChange}
-					disabled={isLoading}
-					className="w-full"
-					placeholder="Select start date"
-				/>
-			</div>
-			<div>
-				<label htmlFor="endDate" className="block text-sm font-medium mb-1">
-					End Date
-				</label>
-				<Input
-					type="date"
-					id="endDate"
-					name="endDate"
-					value={formData.endDate}
-					onChange={handleChange}
-					disabled={isLoading}
-					className="w-full"
-				/>
-			</div>
-			<div>
-				<label htmlFor="note" className="block text-sm font-medium mb-1">
-					Note (Optional)
-				</label>
-				<textarea
-					name="note"
-					id="note"
-					value={formData.note}
-					onChange={handleChange}
-					placeholder="e.g., March spending plan"
-					maxLength={500}
-					disabled={isLoading}
-					className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-					rows={3}
-				/>
-				<p className="text-xs text-gray-500 mt-1">
-					{formData.note.length}/500 characters
-				</p>
-			</div>
+
 			<Button
 				type="submit"
-				disabled={isLoading}
-				className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded"
+				disabled={loading}
+				className="w-full py-6 text-lg shadow-lg shadow-blue-100"
 			>
-				{isLoading ? "Creating..." : "Create Budget"}
+				{loading
+					? "Saving..."
+					: activeBudget
+						? "Update Budget Plan"
+						: "Initialize Budget"}
 			</Button>
 		</form>
 	);
