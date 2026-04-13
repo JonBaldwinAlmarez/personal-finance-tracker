@@ -39,6 +39,7 @@ export interface Budget {
 	spent?: number;
 	percentage?: number;
 	alertLevel?: "ok" | "info" | "warning" | "critical" | "error";
+	isExpired?: boolean;
 }
 
 export interface CreateBudgetPayload {

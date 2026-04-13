@@ -7,8 +7,9 @@ import { ExpenseChart } from "./components/custom/ExpenseChart";
 import SpendingTimeline from "./components/custom/SpendingTimeline";
 import { AIAdvisor } from "./components/custom/AIAdvisor";
 import { SavedAdvice } from "./components/custom/SavedAdvice";
-import { BudgetManager } from "./sections/BudgetManager";
-import { useBudgets } from "./hooks/useBudget";
+import { BudgetManager } from "@/sections/BudgetManager";
+import { useBudgets } from "@/hooks/useBudget";
+import { useEffect } from "react";
 
 /**
  * Root application component.
@@ -21,7 +22,40 @@ function App() {
 	const { expenses, loading, error, addExpense, deleteExpense, totalBalance } =
 		useExpenses();
 
-	const { activeBudget } = useBudgets();
+	// 2. Budget state lives here so all sections share one source of truth
+	const {
+		budgets,
+		activeBudget,
+		loading: budgetLoading,
+		error: budgetError,
+		fetchBudgets,
+		fetchActiveBudget,
+		createBudget,
+		updateBudget,
+		deleteBudget,
+		resetBudget,
+	} = useBudgets();
+
+	// 3. Initial budget load
+	useEffect(() => {
+		fetchBudgets();
+		fetchActiveBudget();
+	}, [fetchBudgets, fetchActiveBudget]);
+
+	// 4. Keep budget status in sync after expense mutations
+	const handleAddExpense = async (
+		description: string,
+		amount: number,
+		date?: string,
+	) => {
+		await addExpense(description, amount, date);
+		await fetchActiveBudget();
+	};
+
+	const handleDeleteExpense = async (id: string) => {
+		await deleteExpense(id);
+		await fetchActiveBudget();
+	};
 
 	return (
 		<div className="min-h-screen flex flex-col bg-slate-100 selection:bg-blue-100">
@@ -35,7 +69,16 @@ function App() {
 					activeBudget={activeBudget}
 				/>
 				<div>
-					<BudgetManager />
+					<BudgetManager
+						budgets={budgets}
+						activeBudget={activeBudget}
+						loading={budgetLoading}
+						error={budgetError}
+						onCreateBudget={createBudget}
+						onUpdateBudget={updateBudget}
+						onDeleteBudget={deleteBudget}
+						onResetBudget={resetBudget}
+					/>
 				</div>
 
 				{/* 3. Global Error Handling: Shows up if the API fails */}
@@ -59,8 +102,8 @@ function App() {
 						{/* 1. Management Section */}
 						<ExpenseManager
 							expenses={expenses}
-							onAdd={addExpense}
-							onDelete={deleteExpense}
+							onAdd={handleAddExpense}
+							onDelete={handleDeleteExpense}
 						/>
 						{/* 2. AI Insights Section */}
 						<AIAdvisor currentTotal={totalBalance} />

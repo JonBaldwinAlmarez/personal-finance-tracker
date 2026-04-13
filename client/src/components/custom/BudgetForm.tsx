@@ -2,17 +2,28 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useBudgets } from "@/hooks/useBudget";
+import { type Budget, type CreateBudgetPayload } from "@/lib/types";
 
-export const BudgetForm = () => {
-	const {
-		activeBudget,
-		loading,
-		error,
-		updateBudget,
-		createBudget,
-		resetBudget,
-	} = useBudgets();
+interface BudgetFormProps {
+	activeBudget: Budget | null;
+	loading: boolean;
+	error: string | null;
+	onUpdateBudget: (
+		id: string,
+		payload: Partial<Budget>,
+	) => Promise<Budget | null>;
+	onCreateBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
+	onResetBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
+}
+
+export const BudgetForm = ({
+	activeBudget,
+	loading,
+	error,
+	onUpdateBudget,
+	onCreateBudget,
+	onResetBudget,
+}: BudgetFormProps) => {
 
 	const [formData, setFormData] = useState<{
 		amount: string;
@@ -55,9 +66,9 @@ export const BudgetForm = () => {
 		};
 
 		if (activeBudget?._id) {
-			await updateBudget(activeBudget._id, payload);
+			await onUpdateBudget(activeBudget._id, payload);
 		} else {
-			await createBudget(payload);
+			await onCreateBudget(payload);
 		}
 	};
 
@@ -68,7 +79,7 @@ export const BudgetForm = () => {
 			)
 		) {
 			// You can pass the current formData as the 'starting point' for the reset if your API requires it
-			await resetBudget({
+			await onResetBudget({
 				amount: 0,
 				startDate: new Date().toISOString().split("T")[0],
 				endDate: "",

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 interface ExpenseFormProps {
 	/** Callback invoked when a new expense is submitted. */
-	onAdd: (description: string, amount: number, date?: string) => void;
+	onAdd: (description: string, amount: number, date?: string) => Promise<void>;
 }
 
 /**
@@ -17,23 +17,29 @@ export const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAdd }) => {
 	const [description, setDescription] = useState("");
 	const [amount, setAmount] = useState("");
 	const [date, setDate] = useState("");
-	const [isSubmitting] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	/**
 	 * Handle submission of the expense form.
 	 *
 	 * @param {React.FormEvent} e - Native form submit event.
 	 */
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!description || !amount) return;
 
-		onAdd(description, parseFloat(amount), date || undefined);
+		// 1. Await parent mutation so dependent UI can refresh first.
+		setIsSubmitting(true);
+		try {
+			await onAdd(description, parseFloat(amount), date || undefined);
 
-		// Clear the form
-		setDescription("");
-		setAmount("");
-		setDate("");
+			// 2. Clear the form after successful submission.
+			setDescription("");
+			setAmount("");
+			setDate("");
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (

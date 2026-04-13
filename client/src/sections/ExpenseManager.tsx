@@ -10,9 +10,9 @@ interface ExpenseManagerProps {
 	/** Expense list provided by the parent hook/component. */
 	expenses: Expense[];
 	/** Callback invoked when a new expense is submitted. */
-	onAdd: (description: string, amount: number, date?: string) => void;
+	onAdd: (description: string, amount: number, date?: string) => Promise<void>;
 	/** Callback invoked when a specific expense is deleted. */
-	onDelete: (id: string) => void;
+	onDelete: (id: string) => Promise<void>;
 }
 
 type SortMode = "latest" | "largest";

@@ -73,26 +73,46 @@ exports.getAllBudgets = async (req, res) => {
 
 /**
  * GET /api/budgets/current
+ *
  */
 exports.getActiveBudget = async (req, res) => {
 	try {
 		const activeBudget = await Budget.findOne({ isActive: true });
+
 		if (!activeBudget) {
 			return res
 				.status(200)
 				.json({ success: true, data: null, message: "No active budget." });
 		}
 
+		// 1. Calculate the spent amount using your existing helper
 		const spent = await calculateSpentAmount(activeBudget._id);
+
+		// 2. Determine expiration status
+		const today = new Date();
+		today.setHours(0, 0, 0, 0); // Normalize to start of day for fair comparison
+
+		const endDate = new Date(activeBudget.endDate);
+		// If today is past the end date, it's expired
+		const isExpired = today > endDate;
+
+		// 3. Get your existing alert level calculations
 		const { percentage, alertLevel } = calculateAlertLevel(
 			spent,
 			activeBudget.amount,
 			activeBudget.alertThresholds,
 		);
 
+		// 4. Send the data back with the new 'isExpired' flag
 		res.status(200).json({
 			success: true,
-			data: { ...activeBudget.toObject(), spent, percentage, alertLevel },
+			data: {
+				...activeBudget.toObject(),
+				spent,
+				percentage,
+				alertLevel,
+				isExpired,
+			},
 		});
 	} catch (error) {
 		res.status(500).json({ success: false, error: error.message });

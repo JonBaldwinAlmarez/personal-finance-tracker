@@ -1,24 +1,65 @@
-import React, { useEffect } from "react";
 import { BudgetForm } from "@/components/custom/BudgetForm";
 import { BudgetHistory } from "@/components/custom/BudgetHistory";
 import { BudgetStatus } from "@/components/custom/BudgetStatus";
-import { useBudgets } from "@/hooks/useBudget";
+import { Button } from "../components/ui/button"; // Assuming Button is in this path
+import { type Budget, type CreateBudgetPayload } from "@/lib/types";
 
-export const BudgetManager: React.FC = () => {
-	const { budgets, activeBudget, loading, error, fetchBudgets, deleteBudget } =
-		useBudgets();
+interface BudgetManagerProps {
+	budgets: Budget[];
+	activeBudget: Budget | null;
+	loading: boolean;
+	error: string | null;
+	onCreateBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
+	onUpdateBudget: (
+		id: string,
+		payload: Partial<Budget>,
+	) => Promise<Budget | null>;
+	onDeleteBudget: (id: string) => Promise<boolean>;
+	onResetBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
+}
 
-	// Load history on mount
-	useEffect(() => {
-		fetchBudgets();
-	}, [fetchBudgets]);
-
+export function BudgetManager({
+	budgets,
+	activeBudget,
+	loading,
+	error,
+	onCreateBudget,
+	onUpdateBudget,
+	onDeleteBudget,
+	onResetBudget,
+}: BudgetManagerProps) {
+	// 1. Local adapter to match BudgetHistory delete callback signature
 	const handleDeleteBudget = async (id: string) => {
-		await deleteBudget(id);
+		await onDeleteBudget(id);
 	};
 
 	return (
 		<section className="max-w-7xl mx-auto px-4 py-10">
+			{/* 1. NEW: Expiration Alert Banner */}
+			{activeBudget?.isExpired && (
+				<div className="mb-8 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
+					<div className="flex items-center gap-3">
+						<span className="text-2xl">⏰</span>
+						<div>
+							<h4 className="font-bold text-amber-900">Budget Period Ended</h4>
+							<p className="text-amber-700 text-sm">
+								Your budget reached its end date on{" "}
+								<b>{new Date(activeBudget.endDate).toLocaleDateString()}</b>.
+								Please review your spending and set a new budget.
+							</p>
+						</div>
+					</div>
+					{/* This button draws attention to the 'Reset' logic in your Form */}
+					<Button
+						variant="default"
+						className="bg-amber-600 hover:bg-amber-700 text-white"
+						onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+					>
+						Create New Plan
+					</Button>
+				</div>
+			)}
+
 			<div className="mb-8">
 				<h2 className="text-3xl font-bold text-slate-900 tracking-tight">
 					Budget Planner
@@ -37,7 +78,16 @@ export const BudgetManager: React.FC = () => {
 			<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 				{/* Left Side: The Single "Smart" Form */}
 				<div className="lg:col-span-5">
-					<BudgetForm key={activeBudget?._id || "new-budget"} />
+					{/* We pass a key to the form to force a re-render if the budget changes */}
+					<BudgetForm
+						key={activeBudget?._id || "new-budget"}
+						activeBudget={activeBudget}
+						loading={loading}
+						error={error}
+						onCreateBudget={onCreateBudget}
+						onUpdateBudget={onUpdateBudget}
+						onResetBudget={onResetBudget}
+					/>
 				</div>
 
 				{/* Right Side: Status and History */}
@@ -53,4 +103,4 @@ export const BudgetManager: React.FC = () => {
 			</div>
 		</section>
 	);
-};
+}
