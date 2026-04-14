@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Trash2, Sparkles } from "lucide-react";
 import { api } from "@/lib/api";
 import type { SavedAdviceItem } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * SavedAdvice component for displaying and managing saved AI advice.
@@ -95,58 +96,71 @@ export const SavedAdvice: React.FC = () => {
 				</Button>
 
 				{/* Content - Only show when expanded */}
-				{isExpanded && (
-					<div className="p-6">
-						{error && (
-							<div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
-								⚠️ {error}
-							</div>
-						)}
-
-						{savedAdvice.length === 0 ? (
-							<div className="text-center py-8 text-slate-500">
-								<Sparkles className="w-12 h-12 mx-auto mb-3 opacity-50" />
-								<p className="font-medium">No saved advice yet</p>
-								<p className="text-sm">
-									Get AI advice above to start saving helpful tips!
-								</p>
-							</div>
-						) : (
-							<div className="grid gap-4 md:grid-cols-2">
-								{savedAdvice.map((item) => (
-									<div
-										key={item._id}
-										className="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:shadow-md transition-shadow"
-									>
-										<div className="flex items-start justify-between mb-3">
-											<div className="flex items-center gap-2 text-sm text-slate-600">
-												<Sparkles className="w-4 h-4" />
-												<span>Advice from {formatDate(item.dateSaved)}</span>
-											</div>
-											<Button
-												variant="ghost"
-												size="sm"
-												onClick={() => handleDelete(item._id)}
-												disabled={deletingId === item._id}
-												className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
-											>
-												<Trash2 className="w-4 h-4" />
-											</Button>
-										</div>
-
-										<p className="text-slate-800 mb-3 leading-relaxed">
-											{item.advice}
-										</p>
-
-										<div className="text-sm font-medium text-green-600">
-											Suggested Budget: ₱{item.suggestedBudget.toLocaleString()}
-										</div>
+				<AnimatePresence>
+					{isExpanded && (
+						<motion.div
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: "auto", opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							transition={{ duration: 0.3, ease: "easeInOut" }}
+							className="overflow-hidden"
+						>
+							<div className="p-6">
+								{error && (
+									<div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
+										⚠️ {error}
 									</div>
-								))}
+								)}
+
+								{savedAdvice.length === 0 ? (
+									<div className="text-center py-8 text-slate-500">
+										<Sparkles className="w-12 h-12 mx-auto mb-3 opacity-50" />
+										<p className="font-medium">No saved advice yet</p>
+										<p className="text-sm">
+											Get AI advice above to start saving helpful tips!
+										</p>
+									</div>
+								) : (
+									<div className="grid gap-4 md:grid-cols-2">
+										{savedAdvice.map((item) => (
+											<div
+												key={item._id}
+												className="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:shadow-md transition-shadow"
+											>
+												<div className="flex items-start justify-between mb-3">
+													<div className="flex items-center gap-2 text-sm text-slate-600">
+														<Sparkles className="w-4 h-4" />
+														<span>
+															Advice from {formatDate(item.dateSaved)}
+														</span>
+													</div>
+													<Button
+														variant="ghost"
+														size="sm"
+														onClick={() => handleDelete(item._id)}
+														disabled={deletingId === item._id}
+														className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
+													>
+														<Trash2 className="w-4 h-4" />
+													</Button>
+												</div>
+
+												<p className="text-slate-800 mb-3 leading-relaxed">
+													{item.advice}
+												</p>
+
+												<div className="text-sm font-medium text-green-600">
+													Suggested Budget: ₱
+													{item.suggestedBudget.toLocaleString()}
+												</div>
+											</div>
+										))}
+									</div>
+								)}
 							</div>
-						)}
-					</div>
-				)}
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</div>
 		</section>
 	);

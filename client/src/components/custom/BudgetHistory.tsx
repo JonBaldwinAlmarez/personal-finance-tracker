@@ -2,6 +2,7 @@ import { useState } from "react";
 import { type Budget } from "@/lib/types";
 import { ArrowBigRight, ArrowBigDown } from "lucide-react";
 import { Button } from "../ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface BudgetHistoryProps {
 	budgets: Budget[];
@@ -53,61 +54,72 @@ export const BudgetHistory: React.FC<BudgetHistoryProps> = ({
 									)}
 								</span>
 							</button>
-							{expandedId === budget._id && (
-								<div className="p-4 bg-white border-t space-y-3">
-									{budget.note && (
-										<div>
-											<p className="text-xs font-semibold text-gray-600 uppercase">
-												Note
-											</p>
-											<p className="text-sm text-gray-700">{budget.note}</p>
+							<AnimatePresence initial={false}>
+								{expandedId === budget._id && (
+									<motion.div
+										key="content"
+										initial={{ height: 0, opacity: 0 }}
+										animate={{ height: "auto", opacity: 1 }}
+										exit={{ height: 0, opacity: 0 }}
+										transition={{ duration: 0.3, ease: "easeInOut" }}
+										className="overflow-hidden"
+									>
+										<div className="p-4 bg-white border-t space-y-3">
+											{budget.note && (
+												<div>
+													<p className="text-xs font-semibold text-gray-600 uppercase">
+														Note
+													</p>
+													<p className="text-sm text-gray-700">{budget.note}</p>
+												</div>
+											)}
+											<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+												<div>
+													<p className="text-xs font-semibold text-gray-600 uppercase">
+														Budget
+													</p>
+													<p className="text-lg font-bold text-blue-600">
+														₱{budget.amount.toFixed(2)}
+													</p>
+												</div>
+												<div>
+													<p className="text-xs font-semibold text-gray-600 uppercase">
+														Spent
+													</p>
+													<p className="text-lg font-bold text-purple-600">
+														₱{(budget.spent || 0).toFixed(2)}
+													</p>
+												</div>
+											</div>
+											<div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+												<div
+													className="h-full bg-blue-500"
+													style={{
+														width: `${Math.min(budget.percentage || 0, 100)}%`,
+													}}
+												/>
+											</div>
+											{onDeleteBudget && (
+												<Button
+													onClick={async () => {
+														if (
+															confirm(
+																"Are you sure you want to delete this budget record?",
+															)
+														) {
+															await onDeleteBudget(budget._id);
+															setExpandedId(null);
+														}
+													}}
+													className="w-full text-sm px-3 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded transition"
+												>
+													Delete Record
+												</Button>
+											)}
 										</div>
-									)}
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										<div>
-											<p className="text-xs font-semibold text-gray-600 uppercase">
-												Budget
-											</p>
-											<p className="text-lg font-bold text-blue-600">
-												₱{budget.amount.toFixed(2)}
-											</p>
-										</div>
-										<div>
-											<p className="text-xs font-semibold text-gray-600 uppercase">
-												Spent
-											</p>
-											<p className="text-lg font-bold text-purple-600">
-												₱{(budget.spent || 0).toFixed(2)}
-											</p>
-										</div>
-									</div>
-									<div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-										<div
-											className="h-full bg-blue-500"
-											style={{
-												width: `${Math.min(budget.percentage || 0, 100)}%`,
-											}}
-										/>
-									</div>
-									{onDeleteBudget && (
-										<Button
-											onClick={async () => {
-												if (
-													confirm(
-														"Are you sure you want to delete this budget record?",
-													)
-												) {
-													await onDeleteBudget(budget._id);
-													setExpandedId(null);
-												}
-											}}
-											className="w-full text-sm px-3 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded transition"
-										>
-											Delete Record
-										</Button>
-									)}
-								</div>
-							)}
+									</motion.div>
+								)}
+							</AnimatePresence>
 						</div>
 					))}
 				</div>

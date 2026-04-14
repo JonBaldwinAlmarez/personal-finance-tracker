@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { type Budget, type CreateBudgetPayload } from "@/lib/types";
+import { motion } from "framer-motion";
 
 interface BudgetFormProps {
 	activeBudget: Budget | null;
@@ -24,7 +25,6 @@ export const BudgetForm = ({
 	onCreateBudget,
 	onResetBudget,
 }: BudgetFormProps) => {
-
 	const [formData, setFormData] = useState<{
 		amount: string;
 		startDate: string;
@@ -115,7 +115,7 @@ export const BudgetForm = ({
 				</div>
 			)}
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<motion.div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<div className="md:col-span-2">
 					<label
 						className="text-sm font-semibold text-gray-600"
@@ -181,7 +181,7 @@ export const BudgetForm = ({
 						className="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
 					/>
 				</div>
-			</div>
+			</motion.div>
 
 			<Button
 				type="submit"
