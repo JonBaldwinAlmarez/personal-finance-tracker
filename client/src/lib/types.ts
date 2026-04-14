@@ -27,6 +27,10 @@ export interface SavedAdviceItem extends AIAnalysis {
 	dateSaved: string;
 }
 
+/**
+ * Budget interface representing a user's budget with various properties and optional fields for tracking spending and alert levels.
+ */
+
 export interface Budget {
 	_id: string;
 	amount: number;
@@ -41,6 +45,11 @@ export interface Budget {
 	alertLevel?: "ok" | "info" | "warning" | "critical" | "error";
 	isExpired?: boolean;
 }
+
+/**
+ * CreateBudgetPayload interface for creating a new budget, with required fields for amount and date range, and optional fields for notes and alert thresholds.
+ *
+ */
 
 export interface CreateBudgetPayload {
 	amount: number;
