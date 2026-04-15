@@ -3,6 +3,7 @@ import { ExpenseList } from "@/components/custom/ExpenseList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { type Expense } from "@/lib/types";
+
 import { Search } from "lucide-react";
 import { useState } from "react";
 
@@ -30,6 +31,19 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sortMode, setSortMode] = useState<SortMode>("latest");
+
+	const handleClearAll = async () => {
+		if (expenses.length === 0) return;
+
+		const confirmClear = window.confirm(
+			"Are you sure you want to clear all expenses? This action cannot be undone.",
+		);
+
+		if (!confirmClear) return;
+
+		// Call onDelete for each expense to clear them all
+		await Promise.all(expenses.map((expense) => onDelete(expense._id)));
+	};
 
 	// Apply search + sort in-memory for instant UI feedback.
 	const filteredExpenses = expenses
@@ -84,6 +98,12 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 							>
 								Largest
 							</Button>
+							<Button
+								onClick={handleClearAll}
+								className="px-3 py-1.5 text-xs font-medium rounded-md transition-all bg-red-500 text-blue-500 hover:bg-red-700"
+							>
+								Clear All
+							</Button>
 						</div>
 
 						{/* Search Input */}
@@ -100,7 +120,7 @@ export const ExpenseManager: React.FC<ExpenseManagerProps> = ({
 					</div>
 
 					{/* Logic: We now pass filteredExpenses instead of the raw expenses */}
-					<div className="pr-2 max-h-[350px] overflow-y-auto custom-scrollbar">
+					<div className="pr-2 max-h-87.5 overflow-y-auto custom-scrollbar">
 						<ExpenseList expenses={filteredExpenses} onDelete={onDelete} />
 					</div>
 					{/* Empty Search Result Logic */}

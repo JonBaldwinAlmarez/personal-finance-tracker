@@ -26,7 +26,7 @@ export const ExpenseList: React.FC<ExpenseListProps> = ({
 				animate={{ opacity: 1 }}
 				className="text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-200"
 			>
-				<p className="text-slate-400">No transactions found</p>
+				<p className="text-slate-700">No transactions found</p>
 			</motion.div>
 		);
 	}

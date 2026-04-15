@@ -57,11 +57,14 @@ const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
 	if (expenses.length === 0) return null;
 
 	return (
-		<div className="w-full min-w-0 bg-white p-4 sm:p-6 lg:p-8 rounded-xl border border-slate-200 shadow-sm mb-12" id="spending-trend">
+		<div
+			className="w-full min-w-0 bg-white p-4 sm:p-6 lg:p-8 rounded-xl border border-slate-200 shadow-sm mb-12"
+			id="spending-trend"
+		>
 			<h3 className="text-lg font-semibold mb-4 text-card-foreground">
 				Spending Trend
 			</h3>
-			<div className="h-[250px] w-full min-w-0 min-h-[250px]">
+			<div className="h-62.5 w-full min-w-0 min-h-62.5">
 				<ResponsiveContainer width="100%" height={250} minWidth={0}>
 					<AreaChart data={chartTimeline}>
 						<defs>

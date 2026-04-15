@@ -23,14 +23,29 @@ export const Navbar: React.FC = () => {
 		typeof window === "undefined" ? 0 : window.scrollY,
 	);
 
+	// Stores the last clicked route/path for the mobile menu
+	// Used to control whether the mobile menu should be considered "open"
 	const [mobileMenuPath, setMobileMenuPath] = useState<string | null>(null);
+
+	// Determines if the mobile menu is open by checking if the stored path
+	// matches the current route
 	const isMobileMenuOpen = mobileMenuPath === location.pathname;
 
+	// Attempts to get the hero section DOM element (only runs in browser)
+	// Used for scroll-based UI behavior (e.g., navbar visibility)
 	const heroSection =
 		typeof document === "undefined" ? null : document.getElementById("hero");
+
+	// Calculates the bottom position of the hero section
+	// Subtracts 100px as a threshold buffer for triggering UI changes
 	const heroBottom = heroSection
 		? heroSection.offsetTop + heroSection.offsetHeight - 100
 		: null;
+
+	// Controls navbar visibility:
+	// - Always visible if NOT on homepage
+	// - Or if hero section doesn't exist
+	// - Or if user has scrolled past the hero section threshold
 	const isVisible = !isHomePage || heroBottom === null || scrollY > heroBottom;
 
 	useEffect(() => {
@@ -59,7 +74,7 @@ export const Navbar: React.FC = () => {
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
-					<div className="flex-shrink-0 flex items-center">
+					<div className="shrink-0 flex items-center">
 						<Link
 							to="/"
 							className="text-xl font-bold tracking-tighter text-slate-900"
