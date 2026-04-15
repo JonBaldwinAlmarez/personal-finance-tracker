@@ -9,34 +9,42 @@ import { Link, NavLink, useLocation } from "react-router-dom";
  * feel, and it stays visible on dedicated sub-pages.
  */
 export const Navbar: React.FC = () => {
-	const [isVisible, setIsVisible] = useState(false);
-	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	// React Router hook that gives access to the current URL (path)
 	const location = useLocation();
 
-	useEffect(() => {
-		// Close the mobile menu on navigation.
-		setIsMobileMenuOpen(false);
+	// Boolean flag to check if the user is currently on the homepage "/"
+	// Useful for conditional UI rendering (e.g., hiding navbar elements on home)
+	const isHomePage = location.pathname === "/";
 
-		if (location.pathname !== "/") {
-			setIsVisible(true);
+	// State to track the vertical scroll position (scrollY)
+	// Initialized safely to avoid errors during SSR (server-side rendering)
+	const [scrollY, setScrollY] = useState(() =>
+		// If window is not available (SSR), default to 0
+		typeof window === "undefined" ? 0 : window.scrollY,
+	);
+
+	const [mobileMenuPath, setMobileMenuPath] = useState<string | null>(null);
+	const isMobileMenuOpen = mobileMenuPath === location.pathname;
+
+	const heroSection =
+		typeof document === "undefined" ? null : document.getElementById("hero");
+	const heroBottom = heroSection
+		? heroSection.offsetTop + heroSection.offsetHeight - 100
+		: null;
+	const isVisible = !isHomePage || heroBottom === null || scrollY > heroBottom;
+
+	useEffect(() => {
+		if (!isHomePage) {
 			return;
 		}
 
 		const handleScroll = () => {
-			const heroSection = document.getElementById("hero");
-			if (heroSection) {
-				const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-				const scrollPosition = window.scrollY;
-				setIsVisible(scrollPosition > heroBottom - 100);
-			} else {
-				setIsVisible(true);
-			}
+			setScrollY(window.scrollY);
 		};
 
 		window.addEventListener("scroll", handleScroll);
-		handleScroll();
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, [location.pathname]);
+	}, [isHomePage]);
 
 	const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 		`text-sm font-medium transition-colors ${
@@ -80,9 +88,17 @@ export const Navbar: React.FC = () => {
 						className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
 						aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
 						aria-expanded={isMobileMenuOpen}
-						onClick={() => setIsMobileMenuOpen((v) => !v)}
+						onClick={() =>
+							setMobileMenuPath((currentPath) =>
+								currentPath === location.pathname ? null : location.pathname,
+							)
+						}
 					>
-						{isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+						{isMobileMenuOpen ? (
+							<X className="h-5 w-5" />
+						) : (
+							<Menu className="h-5 w-5" />
+						)}
 					</button>
 				</div>
 

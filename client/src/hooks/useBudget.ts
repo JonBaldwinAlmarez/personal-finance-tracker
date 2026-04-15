@@ -148,7 +148,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 
 	useEffect(() => {
 		fetchActiveBudget();
-	}, []);
+	}, [fetchActiveBudget]);
 
 	return {
 		budgets,
