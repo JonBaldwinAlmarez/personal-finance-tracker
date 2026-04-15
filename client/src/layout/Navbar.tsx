@@ -1,38 +1,47 @@
-import React, { useState, useEffect } from "react";
-//import { Button } from "../components/ui/button";
+import React, { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 /**
- * Sticky top navigation bar with in-page anchor links.
+ * Sticky top navigation bar with route links.
  *
- * Only visible when scrolled past the hero section for cleaner landing experience.
- * Uses scroll detection to show/hide based on user position.
+ * On the dashboard it appears after the hero section for the original landing-page
+ * feel, and it stays visible on dedicated sub-pages.
  */
 export const Navbar: React.FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const location = useLocation();
 
 	useEffect(() => {
+		// Close the mobile menu on navigation.
+		setIsMobileMenuOpen(false);
+
+		if (location.pathname !== "/") {
+			setIsVisible(true);
+			return;
+		}
+
 		const handleScroll = () => {
-			// Get the hero section element
 			const heroSection = document.getElementById("hero");
 			if (heroSection) {
-				// Calculate when hero section is no longer visible
 				const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
 				const scrollPosition = window.scrollY;
-
-				// Show navbar when scrolled past hero section
-				setIsVisible(scrollPosition > heroBottom - 100); // Small offset for smoother transition
+				setIsVisible(scrollPosition > heroBottom - 100);
+			} else {
+				setIsVisible(true);
 			}
 		};
 
-		// Add scroll listener
 		window.addEventListener("scroll", handleScroll);
-
-		// Check initial position
 		handleScroll();
-
-		// Cleanup
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, []);
+	}, [location.pathname]);
+
+	const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+		`text-sm font-medium transition-colors ${
+			isActive ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
+		}`;
 
 	return (
 		<nav
@@ -41,55 +50,58 @@ export const Navbar: React.FC = () => {
 			}`}
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex justify-center md:justify-between items-center h-16">
-					{/* Logo */}
+				<div className="flex justify-between items-center h-16">
 					<div className="flex-shrink-0 flex items-center">
-						<span className="text-xl font-bold tracking-tighter text-slate-900">
+						<Link
+							to="/"
+							className="text-xl font-bold tracking-tighter text-slate-900"
+						>
 							FINANCE.IO
-						</span>
+						</Link>
 					</div>
 
-					{/* Desktop Navigation */}
-
 					<div className="hidden md:block">
-						<div className="ml-10 flex items-baseline space-x-8">
-							<a
-								href="#hero"
-								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-							>
+						<div className="ml-10 flex items-center space-x-8">
+							<NavLink to="/" end className={navLinkClass}>
 								Home
-							</a>
-							<a
-								href="#expenses"
-								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-							>
-								Transactions
-							</a>
-							<a
-								href="#AI-advisor"
-								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-							>
+							</NavLink>
+							<NavLink to="/charts" className={navLinkClass}>
+								Charts
+							</NavLink>
+							<NavLink to="/advice" className={navLinkClass}>
 								AI Advisor
-							</a>
-							<a
-								href="#spending-breakdown"
-								className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-							>
-								Spending Breakdown
-							</a>
-
-		
+							</NavLink>
 						</div>
 					</div>
 
-					{/* Call to Action Button 
-					<div className="flex items-center">
-						<Button className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-all">
-							Get Started
-						</Button>
-					</div>
-					*/}
+					{/* Mobile menu button */}
+					<button
+						type="button"
+						className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+						aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+						aria-expanded={isMobileMenuOpen}
+						onClick={() => setIsMobileMenuOpen((v) => !v)}
+					>
+						{isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+					</button>
 				</div>
+
+				{/* Mobile menu panel */}
+				{isMobileMenuOpen && (
+					<div className="md:hidden border-t border-slate-200 py-3">
+						<div className="flex flex-col gap-2">
+							<NavLink to="/" end className={navLinkClass}>
+								Home
+							</NavLink>
+							<NavLink to="/charts" className={navLinkClass}>
+								Charts
+							</NavLink>
+							<NavLink to="/advice" className={navLinkClass}>
+								AI Advisor
+							</NavLink>
+						</div>
+					</div>
+				)}
 			</div>
 		</nav>
 	);
