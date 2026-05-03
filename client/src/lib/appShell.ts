@@ -9,19 +9,28 @@ export interface AppShellContext {
 	loading: boolean;
 	error: string | null;
 	totalBalance: number;
+	budgets: Budget[];
+	activeBudget: Budget | null;
+	budgetLoading: boolean;
+	budgetError: string | null;
+
 	handleAddExpense: (
 		description: string,
 		amount: number,
 		date?: string,
 	) => Promise<void>;
+
 	handleDeleteExpense: (id: string) => Promise<void>;
-	budgets: Budget[];
-	activeBudget: Budget | null;
-	budgetLoading: boolean;
-	budgetError: string | null;
+
 	createBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
-	updateBudget: (id: string, payload: Partial<Budget>) => Promise<Budget | null>;
+
+	updateBudget: (
+		id: string,
+		payload: Partial<Budget>,
+	) => Promise<Budget | null>;
+
 	deleteBudget: (id: string) => Promise<boolean>;
+
 	resetBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
 }
 
