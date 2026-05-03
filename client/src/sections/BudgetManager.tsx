@@ -1,8 +1,8 @@
 import { BudgetForm } from "@/components/custom/BudgetForm";
 import { BudgetHistory } from "@/components/custom/BudgetHistory";
 import { BudgetStatus } from "@/components/custom/BudgetStatus";
-import { Button } from "../components/ui/button"; // Assuming Button is in this path
 import { type Budget, type CreateBudgetPayload } from "@/lib/types";
+import { TriangleAlert } from "lucide-react";
 
 interface BudgetManagerProps {
 	budgets: Budget[];
@@ -39,7 +39,7 @@ export function BudgetManager({
 			{activeBudget?.isExpired && (
 				<div className="mb-8 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
 					<div className="flex items-center gap-3">
-						<span className="text-2xl">⏰</span>
+						<TriangleAlert className="h-10 w-10 text-amber-500" />
 						<div>
 							<h4 className="font-bold text-amber-900">Budget Period Ended</h4>
 							<p className="text-amber-700 text-sm">
@@ -49,14 +49,6 @@ export function BudgetManager({
 							</p>
 						</div>
 					</div>
-					{/* This button draws attention to the 'Reset' logic in your Form */}
-					<Button
-						variant="default"
-						className="bg-amber-600 hover:bg-amber-700 text-white"
-						onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-					>
-						Create New Plan
-					</Button>
 				</div>
 			)}
 

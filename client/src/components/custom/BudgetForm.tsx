@@ -102,7 +102,7 @@ export const BudgetForm = ({
 						type="button"
 						variant="outline"
 						onClick={handleReset}
-						className="text-red-500 border-red-200 hover:bg-red-50"
+						className={`${activeBudget.isExpired ? "text-white bg-red-600" : "text-gray-700 border-gray-300 hover:bg-gray-50"}`}
 					>
 						Reset Planner
 					</Button>
