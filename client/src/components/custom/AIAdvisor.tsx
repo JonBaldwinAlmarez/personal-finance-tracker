@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
+import toast from "react-hot-toast";
+
 interface AIAdvisorProps {
 	currentTotal: number;
 }
@@ -33,9 +35,11 @@ export const AIAdvisor: React.FC<AIAdvisorProps> = ({ currentTotal }) => {
 				await api.saveAdvice(result.advice, result.suggestedBudget);
 				console.log("Advice saved successfully.");
 			} catch (error) {
-				console.error("Failed to save advice:", error);
+				toast.error("Failed to save advice Check Console", { duration: 5000 });
+				console.error("Error:	", error);
 			}
 		} catch (err) {
+			toast.error("Failed to Request API");
 			console.error(err);
 		} finally {
 			setLoading(false);
