@@ -4,7 +4,11 @@ const BASED_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const API_URL = `${BASED_URL}/api/expenses`;
 
 // Import shared types
-import type { Expense, AIAnalysis, SavedAdviceItem } from "./types";
+import type {
+	Expense,
+	AIAnalysis,
+	SavedAdviceItem,
+} from "./types";
 
 /**
  * Light-weight API client for talking to the expense backend.
@@ -96,7 +100,10 @@ export const api = {
 		return json.data;
 	},
 
-	async saveAdvice(advice: string, suggestedBudget: number): Promise<any> {
+	async saveAdvice(
+		advice: string,
+		suggestedBudget: number,
+	): Promise<SavedAdviceItem> {
 		const res = await fetch(`${BASED_URL}/api/ai/saved`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },

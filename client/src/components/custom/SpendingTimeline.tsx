@@ -28,18 +28,15 @@ interface TimelineProps {
  * them to produce a left-to-right timeline for Recharts.
  */
 const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
-	// 1. Group by Date
+	// 1. Group by date using a stable key so render stays pure and sorting is reliable.
 	const timelineData = expenses.reduce(
 		(acc: Record<string, number>, current) => {
-			const date = new Date(current.date ?? Date.now()).toLocaleDateString(
-				"en-US",
-				{
-					month: "short",
-					day: "numeric",
-				},
-			);
+			if (!current.date) {
+				return acc;
+			}
 
-			acc[date] = (acc[date] || 0) + Number(current.amount);
+			const dateKey = current.date.slice(0, 10);
+			acc[dateKey] = (acc[dateKey] || 0) + Number(current.amount);
 			return acc;
 		},
 		{},
@@ -47,17 +44,27 @@ const SpendingTimeline: React.FC<TimelineProps> = ({ expenses }) => {
 
 	// 2. Format for Recharts and Sort
 	const chartTimeline = Object.entries(timelineData)
-		.map(([date, amount]) => ({ date, amount }))
-		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+		.map(([date, amount]) => ({
+			date: new Date(date).toLocaleDateString("en-US", {
+				month: "short",
+				day: "numeric",
+			}),
+			sortKey: date,
+			amount,
+		}))
+		.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
 
 	if (expenses.length === 0) return null;
 
 	return (
-		<div className="w-full min-w-0 bg-white p-4 sm:p-6 lg:p-8 rounded-xl border border-slate-200 shadow-sm mb-12" id="spending-trend">
+		<div
+			className="w-full min-w-0 bg-white p-4 sm:p-6 lg:p-8 rounded-xl border border-slate-200 shadow-sm mb-12"
+			id="spending-trend"
+		>
 			<h3 className="text-lg font-semibold mb-4 text-card-foreground">
 				Spending Trend
 			</h3>
-			<div className="h-[250px] w-full min-w-0 min-h-[250px]">
+			<div className="h-62.5 w-full min-w-0 min-h-62.5">
 				<ResponsiveContainer width="100%" height={250} minWidth={0}>
 					<AreaChart data={chartTimeline}>
 						<defs>

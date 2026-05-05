@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Budget, CreateBudgetPayload } from "../lib/types";
+import { div } from "framer-motion/client";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -69,6 +70,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data); // keep the active budget current
 				await fetchBudgets();
 				return result.data;
 			}
@@ -93,6 +95,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data);
 				await fetchBudgets();
 				return result.data;
 			}
@@ -135,6 +138,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data.new); // update active budget after reset
 				await fetchBudgets();
 				return result.data.new;
 			}
@@ -148,7 +152,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 
 	useEffect(() => {
 		fetchActiveBudget();
-	}, []);
+	}, [fetchActiveBudget]);
 
 	return {
 		budgets,
