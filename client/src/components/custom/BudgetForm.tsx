@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -17,6 +17,14 @@ interface BudgetFormProps {
 	onResetBudget: (payload: CreateBudgetPayload) => Promise<Budget | null>;
 }
 
+// Helper function to convert Budget to form data format
+const getInitialFormData = (budget: Budget | null) => ({
+	amount: budget?.amount.toString() || "",
+	startDate: budget?.startDate ? budget.startDate.split("T")[0] : "",
+	endDate: budget?.endDate ? budget.endDate.split("T")[0] : "",
+	note: budget?.note || "",
+});
+
 export const BudgetForm = ({
 	activeBudget,
 	loading,
@@ -25,19 +33,11 @@ export const BudgetForm = ({
 	onCreateBudget,
 	onResetBudget,
 }: BudgetFormProps) => {
-	const [formData, setFormData] = useState<{
-		amount: string;
-		startDate: string;
-		endDate: string;
-		note: string;
-	}>({
-		amount: activeBudget?.amount.toString() || "",
-		startDate: activeBudget?.startDate
-			? activeBudget.startDate.split("T")[0]
-			: "",
-		endDate: activeBudget?.endDate ? activeBudget.endDate.split("T")[0] : "",
-		note: activeBudget?.note || "",
-	});
+	const [formData, setFormData] = useState(getInitialFormData(activeBudget));
+
+	useEffect(() => {
+		setFormData(getInitialFormData(activeBudget));
+	}, [activeBudget]);
 
 	const [validationError, setValidationError] = useState<string | null>(null);
 

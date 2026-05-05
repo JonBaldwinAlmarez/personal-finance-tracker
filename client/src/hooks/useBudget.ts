@@ -69,6 +69,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data); // keep the active budget current
 				await fetchBudgets();
 				return result.data;
 			}
@@ -93,6 +94,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data);
 				await fetchBudgets();
 				return result.data;
 			}
@@ -135,6 +137,7 @@ export const useBudgets = (): UseBudgetsReturn => {
 			});
 			const result = await resp.json();
 			if (result.success) {
+				setActiveBudget(result.data.new); // update active budget after reset
 				await fetchBudgets();
 				return result.data.new;
 			}
