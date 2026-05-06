@@ -4,6 +4,7 @@ import { api } from "@/lib/api";
 import type { SavedAdviceItem } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 
 /**
  * SavedAdvice component for displaying and managing saved AI advice.
@@ -32,6 +33,7 @@ export const SavedAdvice: React.FC = () => {
 			const data = (await api.getSavedAdvice()) as SavedAdviceItem[];
 			setSavedAdvice(data);
 		} catch (err) {
+			toast.error("Fail to load save Advice.", { duration: 5000 });
 			setError("Failed to load saved advice.");
 			console.error(err);
 		} finally {
@@ -41,6 +43,7 @@ export const SavedAdvice: React.FC = () => {
 
 	const handleDelete = async (id: string) => {
 		if (!confirm("Are you sure you want to delete this saved advice?")) {
+			toast.success("Remove Advice successful");
 			return;
 		}
 

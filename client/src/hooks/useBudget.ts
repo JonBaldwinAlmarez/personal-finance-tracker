@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Budget, CreateBudgetPayload } from "../lib/types";
-import { div } from "framer-motion/client";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
